@@ -17,5 +17,4 @@ mongoose.connect(process.env.MONGO_URL)
     console.log('Closing connection');
     mongoose.connection.close();
   })
-
 // Run npm run seed 
