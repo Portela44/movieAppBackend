@@ -26,6 +26,7 @@ const reviewSchema = new Schema(
         },
         likes: {
             type: Number,
+            default: 0
         }
     },
     {
