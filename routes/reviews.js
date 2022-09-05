@@ -9,8 +9,8 @@ const Review = require("../models/Review");
 // @desc    Creates review in Database
 // @route   POST /reviews/create
 // @access  User
-router.post('/:movieId/create', isAuthenticated, async (req,res,next)=>{
-    const{movieId} = req.params
+router.post('/:movieId/:voteId/create', isAuthenticated, async (req,res,next)=>{
+    const{movieId, voteId} = req.params
     const {titleReview ,review} = req.body;
     const userId = req.payload._id
     try {
