@@ -3,18 +3,17 @@ const router = express.Router();
 const ErrorResponse = require('../utils/error');
 const mongoose = require('mongoose');
 const {isAuthenticated} = require('../middlewares/jwt')
-const User = require("../models/User");
 const Review = require("../models/Review");
 
 // @desc    Creates review in Database
 // @route   POST /reviews/create
 // @access  User
-router.post('/:movieId/:voteId/create', isAuthenticated, async (req,res,next)=>{
+router.post('/:movieId/create', isAuthenticated, async (req,res,next)=>{
     const{movieId, voteId} = req.params
-    const {titleReview ,review} = req.body;
+    const {titleReview ,review,likes} = req.body;
     const userId = req.payload._id
     try {
-        const newReview = await Review.create({titleReview, review, userId, movieId})
+        const newReview = await Review.create({titleReview, review, userId, movieId,likes})
         res.status(201).json({data: newReview})
     } catch (error) {
         next(error)
@@ -41,4 +40,33 @@ router.delete('/:reviewId/delete', isAuthenticated, async ( req,res,next)=>{
     }
 })
 
+// @desc    Shows 2 reviews with more likes
+// @route   Get /reviewsMostLiked
+// @access  Public
+
+router.get('/reviewsMostLiked', async (req,res,next) =>{
+    try {
+    const reviews = await Review.find({});
+    const sortedReviews = reviews.sort((a,b)=>(b.likes > a.likes)? 1 : -1)
+    const twoFirst = sortedReviews.slice(0,2)
+    res.status(200).json({data:twoFirst})
+    } catch (error) {
+    next(error)
+    }
+})
+
+// @desc    Shows thus users most recent reviews
+// @route   Get /recentUserReviews
+// @access  User
+
+router.get('/recentUserReviews', async (req,res,next) =>{
+    try {
+    const reviews = await Review.find({});
+    const sortedReviews = reviews.sort((a,b)=>(b.createdAt > a.createdAt)? 1 : -1)
+    const twoFirst = sortedReviews.slice(0,2)
+    res.status(200).json({data:twoFirst})
+    } catch (error) {
+    next(error)
+    }
+})
 module.exports = router;
