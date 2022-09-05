@@ -30,6 +30,12 @@ const userSchema = new Schema({
   preferences: {
     type: [String],
     default: []
+  },
+
+  biography:{
+    type: String,
+    required: true,
+    default: 'This is my biography.'
   }
 },
   {
