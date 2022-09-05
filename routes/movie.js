@@ -49,4 +49,6 @@ router.get("/search-movie", async(req, res, next) => {
     }
 });
 
+router.get("/")
+
 module.exports = router;
