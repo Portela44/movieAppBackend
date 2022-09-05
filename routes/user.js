@@ -12,7 +12,6 @@ const fileUploader = require('../config/cloudinary.config');
 router.put('/edit', isAuthenticated, fileUploader.single('imageUrl'), async (req,res,next) =>{
     const userId = req.payload._id;
     const {username, email, existingImage} = req.body
-    //if user don't update image, it will keep the same.
     let imageUrl;
     if (req.file) {
         imageUrl = req.file.path;
