@@ -8,8 +8,8 @@ const errorHandler = require('./middlewares/errorHandler');
 
 // Routers require
 const indexRouter = require('./routes/index');
-const authRouter = require('./routes/auth');
-const userRouter = require('./routes/user');
+const authRouter = require('./routes/auth/auth');
+const userRouter = require('./routes/auth/user');
 
 const app = express();
 
