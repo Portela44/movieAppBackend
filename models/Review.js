@@ -11,6 +11,10 @@ const reviewSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "User",
         },
+        voteId:{
+            type: Schema.Types.ObjectId,
+            ref:"Vote",
+        },
         titleReview:{
             type: String,
             required: true,
