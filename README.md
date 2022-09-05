@@ -67,9 +67,184 @@ Users in the database have the following properties:
 
 ```js
 {
-  "username": String,
-  "email": String,
-  "hashedPassword": String
+  email: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  hashedPassword: {
+    type: String,
+    required: true
+  },
+  username: {
+    type: String,
+    required: true
+  },
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user'
+  },
+  imageUrl:{
+    type: String,
+  },
+  watchList:{
+    type: [Schema.Types.ObjectId],
+    ref: "Movie"
+  },
+  preferences: {
+    type: [String],
+    default: []
+  },
+
+  biography:{
+    type: String,
+    required: true,
+    default: 'This is my biography.'
+  }
+}
+```
+
+### Movie
+
+Movies in the database have the following properties:
+
+```js
+{
+        imdb_id: {
+            type: String,
+            unique: true
+        },
+        name: {
+            type: String,
+            unique: true
+        },
+        year: {
+            type: Number,
+        },
+        image: {
+            sm: String,
+            md: String,
+            lg: String,
+            og: String
+        },
+        premiere: String,
+        genres: [String],
+        people: [
+            {
+                imdb_id: String,
+                name: String,
+                department: String,
+                job: String,
+                translations: [
+                    {
+                        country: String,
+                        language: String,
+                        name: String
+                    }
+                ]
+            },
+            {
+                imdb_id: String,
+                name: String,
+                department: String,
+                translations: [
+                    {
+                        country: String,
+                        language: String,
+                        name: String,
+                    }
+                ]
+            },
+            {
+                imdb_id: String,
+                name: String,
+                department: String,
+                translations: [
+                    {
+                        country: String,
+                        language: String,
+                        name: String
+                    }
+                ]
+            }
+        ],
+        imdb_rating: Number,
+        imdb_vote: Number,
+        translations: [
+            {
+                country: String,
+                language: String,
+                name: String,
+                overview: String,
+                poster: {
+                    sm: String,
+                    md: String,
+                    lg: String,
+                    og: String
+                }
+            }
+        ],
+        handmade: Boolean,
+}
+```
+
+### Vote
+
+Votes in the database have the following properties:
+
+```js
+{
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: "User"
+        },
+        movieId: {
+            type: Schema.Types.ObjectId,
+            ref: "Movie"
+        },
+        vote: {
+            type: Boolean,
+        },
+        ignore: {
+            type: Boolean,
+        },
+        watchlist: {
+            type: Boolean,
+        }
+}
+```
+
+### Review
+
+Reviews in the database have the following properties:
+
+```js
+{
+        movieId: {
+            type: Schema.Types.ObjectId,
+            ref: "Movie",
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+        },
+        voteId:{
+            type: Schema.Types.ObjectId,
+            ref:"Vote",
+        },
+        titleReview:{
+            type: String,
+            required: true,
+        },
+        review: {
+            type: String,
+            required: true,
+            default: 0
+        },
+        likes: {
+            type: Number,
+        }
 }
 ```
 
