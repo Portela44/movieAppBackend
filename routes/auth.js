@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const User = require('../../models/User');
-const ErrorResponse = require('../../utils/error');
+const User = require('../models/User');
+const ErrorResponse = require('../utils/error');
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
-const { isAuthenticated } = require('../../middlewares/jwt');
+const { isAuthenticated } = require('../middlewares/jwt');
 const saltRounds = 10;
 
 // @desc    SIGN UP new user
