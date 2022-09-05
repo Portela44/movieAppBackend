@@ -26,7 +26,7 @@ router.put('/edit', isAuthenticated, fileUploader.single('imageUrl'), async (req
     } catch (error) {
         next(error)
     }
-})
+});
 
 // @desc    Deletes user from the Database
 // @route   DELETE /user/delete
