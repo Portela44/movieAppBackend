@@ -14,6 +14,7 @@ const reviewSchema = new Schema(
         review: {
             type: String,
             required: true,
+            default: 0
         },
         likes: {
             type: Number,
