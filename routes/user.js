@@ -9,7 +9,6 @@ const fileUploader = require('../config/cloudinary.config');
 // @desc    Updates user from the Database
 // @route   PUT /user/edit
 // @access  User
-
 router.put('/edit', isAuthenticated, fileUploader.single('imageUrl'), async (req,res,next) =>{
     const userId = req.payload._id;
     const {username, email, existingImage} = req.body
@@ -32,7 +31,6 @@ router.put('/edit', isAuthenticated, fileUploader.single('imageUrl'), async (req
 // @desc    Deletes user from the Database
 // @route   DELETE /user/delete
 // @access  User
-
 router.delete('/delete', isAuthenticated, async (req,res,next) =>{
     const userId = req.payload
     try {
@@ -46,7 +44,6 @@ router.delete('/delete', isAuthenticated, async (req,res,next) =>{
 // @desc    Shows userlist to Admin
 // @route   Get /user/userList
 // @access  Admin
-
 router.get('/userList', async (req,res,next)=>{
 
     try {
