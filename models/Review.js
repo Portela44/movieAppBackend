@@ -3,13 +3,17 @@ const {Schema, model} = mongoose;
 
 const reviewSchema = new Schema(
     {
-        movie_id: {
-            type: [Schema.Types.ObjectId],
+        movieId: {
+            type: Schema.Types.ObjectId,
             ref: "Movie",
         },
-        user_id: {
-            type: [Schema.Types.ObjectId],
+        userId: {
+            type: Schema.Types.ObjectId,
             ref: "User",
+        },
+        titleReview:{
+            type: String,
+            required: true,
         },
         review: {
             type: String,
