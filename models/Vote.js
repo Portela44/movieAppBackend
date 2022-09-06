@@ -17,7 +17,7 @@ const voteSchema = new Schema(
         ignore: {
             type: Boolean,
         },
-        watchlist: {
+        inWatchlist: {
             type: Boolean,
         }
     }

@@ -25,7 +25,8 @@ const userSchema = new Schema({
   },
   watchList:{
     type: [Schema.Types.ObjectId],
-    ref: "Movie"
+    ref: "Movie",
+    default:[]
   },
   preferences: {
     type: [String],
