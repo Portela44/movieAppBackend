@@ -10,7 +10,7 @@ const saltRounds = 10;
 // @route   POST /api/v1/auth/signup
 // @access  Public
 router.post('/signup', async (req, res, next) => {
-  const { email, password, username,biography } = req.body;
+  const { email, password, username, biography } = req.body;
   // Check if email or password or name are provided as empty string 
   if (email === "" || password === "" || username === "") {
     return next(new ErrorResponse('Please fill all the fields to register', 400))
@@ -36,6 +36,12 @@ router.post('/signup', async (req, res, next) => {
       const publicUser = { // Decide what fields of our user we want to return 
         username: user.username,
         email: user.email,
+        hashedPassword: user.hashedPassword,
+        role: user.role,
+        imageUrl: user.imageUrl,
+        watchList: user.watchList,
+        preferences: user.preferences,
+        biography: user.biography
       }
       res.status(201).json({ data: publicUser });
     }
@@ -64,8 +70,14 @@ router.post('/login', async (req, res, next) => {
       if (passwordMatches) {
         // Let's create what we want to store 
         const payload = {
-          email: userInDB.email,
           username: userInDB.username,
+          email: userInDB.email,
+          hashedPassword: userInDB.hashedPassword,
+          role: userInDB.role,
+          imageUrl: userInDB.imageUrl,
+          watchList: userInDB.watchList,
+          preferences: userInDB.preferences,
+          biography: userInDB.biography,
           _id: userInDB._id
         }
         // Use the jwt middleware to create de token

@@ -32,7 +32,6 @@ const userSchema = new Schema({
     type: [String],
     default: []
   },
-
   biography:{
     type: String,
     required: true,
