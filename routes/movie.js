@@ -79,11 +79,61 @@ router.get("/api-search-by-imdbId", async(req, res, next) => {
 // @desc    Deletes a movie from the database.
 // @route   DELETE /movies/:movieId/delete
 // @access  Admin
-router.get("/:movieId/delete", async(req, res, next) => {
+router.delete("/:movieId/delete", async(req, res, next) => {
     const {movieId} = req.params;
     try {
         const deletedMovie = Movie.findByIdAndDelete(movieId)
         res.status(202).json({data: deletedMovie});
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @desc    Displays de pre-filled form to edit a movie.
+// @route   GET /movies/:movieId/edit
+// @access  Admin
+router.get("/:movieId/edit", async(req, res, next) => {
+    const {movieId} = req.params;
+    try {
+        const movieToEdit = await Movie.findById(movieId)
+        res.status(202).json({data: movieToEdit});
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @desc    Edits a movie.
+// @route   PUT /movies/:movieId/edit
+// @access  Admin
+router.put("/:movieId/edit", async(req, res, next) => {
+    const {movieId} = req.params;
+    const { imdb_id, name, year, image1, premiere, genre1, genre2, genre3, people1, people2, people3, imdb_rating, imdb_vote, poster1, overview } = req.body;
+    const image = { og: image1 }
+    const genres = [genre1, genre2, genre3];
+    const people = [{ name: people1 }, { name: people2 }, { name: people3 }];
+    const poster = { og: poster1 };
+    const translations = [{ overview, poster }]
+    try {
+        const editedMovie = await Movie.findByIdAndUpdate(movieId, { imdb_id, name, year, image, premiere, genres, people, imdb_rating, imdb_vote, translations }, { new: true });
+        res.status(202).json({data: editedMovie});
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @desc    Creates a new movie in the database
+// @route   POST /movies/create
+// @access  Admin
+router.delete("/create", async(req, res, next) => {
+    const { imdb_id, name, year, image1, premiere, genre1, genre2, genre3, people1, people2, people3, imdb_rating, imdb_vote, poster1, overview } = req.body;
+    const image = { og: image1 }
+    const genres = [genre1, genre2, genre3];
+    const people = [{ name: people1 }, { name: people2 }, { name: people3 }];
+    const poster = { og: poster1 };
+    const translations = [{ overview, poster }]
+    try {
+        const newMovie = await Movie.create({ imdb_id, name, year, image, premiere, genres, people, imdb_rating, imdb_vote, translations}, { new: true });
+        res.status(202).json({data: newMovie});
     } catch (error) {
         next(error);
     }

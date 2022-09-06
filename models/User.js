@@ -23,11 +23,6 @@ const userSchema = new Schema({
   imageUrl:{
     type: String,
   },
-  watchList:{
-    type: [Schema.Types.ObjectId],
-    ref: "Movie",
-    default:[]
-  },
   preferences: {
     type: [String],
     default: []

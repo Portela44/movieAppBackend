@@ -43,7 +43,6 @@ router.delete('/:reviewId/delete', isAuthenticated, async ( req,res,next)=>{
 // @desc    Shows 2 reviews with more likes
 // @route   Get /reviewsMostLiked
 // @access  Public
-
 router.get('/reviewsMostLiked', async (req,res,next) =>{
     try {
     const reviews = await Review.find({});
@@ -58,7 +57,6 @@ router.get('/reviewsMostLiked', async (req,res,next) =>{
 // @desc    Shows thus users most recent reviews
 // @route   Get /recentUserReviews
 // @access  User
-
 router.get('/recentUserReviews', async (req,res,next) =>{
     try {
     const reviews = await Review.find({});
