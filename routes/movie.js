@@ -49,6 +49,44 @@ router.get("/search-movie", async(req, res, next) => {
     }
 });
 
-router.get("/")
+// @desc    Displays movie information coming from an API in the console, so it can be copy-pasted into the seed. Search is made by movie title.
+// @route   GET /movies/api-search-by-name
+// @access  Admin
+router.get("/api-search-by-name", async(req, res, next) => {
+    const movieSearchString = req.query;
+    try {
+        const movieImdbId = await imdbId(`${movieSearchString}`);
+        const movieInfo = await metafilm.id({ imdb_id: `${movieImdbId}` });
+        res.status(202).json({data: movieInfo});
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @desc    Displays movie information coming from an API in the console, so it can be copy-pasted into the seed. Search is made by imdbId.
+// @route   GET /movies/api-search-by-imdbId
+// @access  Admin
+router.get("/api-search-by-imdbId", async(req, res, next) => {
+    const movieIdString = req.query;
+    try {
+        const movieInfo = await metafilm.id({ imdb_id: `${movieIdString}` });
+        res.status(202).json({data: movieInfo});
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @desc    Deletes a movie from the database.
+// @route   DELETE /movies/:movieId/delete
+// @access  Admin
+router.get("/:movieId/delete", async(req, res, next) => {
+    const {movieId} = req.params;
+    try {
+        const deletedMovie = Movie.findByIdAndDelete(movieId)
+        res.status(202).json({data: deletedMovie});
+    } catch (error) {
+        next(error);
+    }
+});
 
 module.exports = router;
