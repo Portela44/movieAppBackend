@@ -39,7 +39,6 @@ router.post('/signup', async (req, res, next) => {
         hashedPassword: user.hashedPassword,
         role: user.role,
         imageUrl: user.imageUrl,
-        watchList: user.watchList,
         preferences: user.preferences,
         biography: user.biography
       }
@@ -75,7 +74,6 @@ router.post('/login', async (req, res, next) => {
           hashedPassword: userInDB.hashedPassword,
           role: userInDB.role,
           imageUrl: userInDB.imageUrl,
-          watchList: userInDB.watchList,
           preferences: userInDB.preferences,
           biography: userInDB.biography,
           _id: userInDB._id
