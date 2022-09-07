@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const ErrorResponse = require('../utils/error');
-const mongoose = require('mongoose');
 const {isAuthenticated} = require('../middlewares/jwt')
 const Review = require("../models/Review");
 const ReviewLike = require('../models/ReviewLike');
@@ -69,40 +68,6 @@ router.get('/recentUserReviews', isAuthenticated, async (req,res,next) =>{
         res.status(200).json({data:twoFirst})
     } catch (error) {
     next(error)
-    }
-});
-
-// @desc    User likes a review.
-// @route   Post /:reviewId/like
-// @access  User
-router.post('/:reviewId/like', isAuthenticated, async(req,res,next)=>{
-    const userId = req.payload._id
-    const {reviewId} = req.params
-    try {
-        //makes sure that user can only vote once
-        const existingLike = await ReviewLike.find({userId:userId, reviewId})
-        if(existingLike){
-            await ReviewLike.findOneAndDelete({userId:userId, reviewId})
-        }
-        //creates the like
-        const createLike = await ReviewLike.create({userId:userId, reviewId})
-        res.status(201).json({data: createLike})
-    } catch (error) {
-        next(error)
-    }
-});
-
-// @desc    User removes like.
-// @route   Post /:reviewId/removeLike
-// @access  User
-router.delete('/:reviewId/removeLike', isAuthenticated, async(req,res,next)=>{
-    const userId = req.payload._id
-    const {reviewId} = req.params
-    try {
-        const deleteLike = await ReviewLike.findOneAndDelete({userId: userId, reviewId})
-        res.status(202).json({data: deleteLike})
-    } catch (error) {
-        next(error)
     }
 });
 
