@@ -101,7 +101,6 @@ router.post('/:reviewId/like', isAuthenticated, async(req,res,next)=>{
 router.delete('/:reviewId/removeLike', isAuthenticated, async(req,res,next)=>{
     const userId = req.payload._id
     const {reviewId} = req.params
-
     try {
         const deleteLike = await ReviewLike.findOneAndDelete({userId: userId, reviewId})
         res.status(202).json({data: deleteLike})
