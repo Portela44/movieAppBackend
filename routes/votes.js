@@ -1,5 +1,4 @@
 const express = require("express");
-const { off } = require("../app");
 const router = express.Router();
 const {isAuthenticated} = require('../middlewares/jwt');
 const Movie = require("../models/Movie");
