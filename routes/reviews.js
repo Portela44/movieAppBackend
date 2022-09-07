@@ -10,11 +10,11 @@ const ReviewLike = require('../models/ReviewLike');
 // @route   POST /reviews/create
 // @access  User
 router.post('/:movieId/create', isAuthenticated, async (req,res,next)=>{
-    const{movieId, voteId} = req.params
-    const {titleReview ,review,likes} = req.body;
+    const{movieId} = req.params
+    const {titleReview ,review} = req.body;
     const userId = req.payload._id
     try {
-        const newReview = await Review.create({titleReview, review, userId, movieId,likes})
+        const newReview = await Review.create({titleReview, review, userId, movieId})
         res.status(201).json({data: newReview})
     } catch (error) {
         next(error)
@@ -29,6 +29,7 @@ router.delete('/:reviewId/delete', isAuthenticated, async ( req,res,next)=>{
     const userId = req.payload._id
     try {
         const foundReview = await Review.findById(reviewId);
+        console.log('THIS IS THE REVIEW FOUND:',foundReview)
         if(userId === foundReview.userId.toString()){
             const deletedReview = await Review.findByIdAndDelete(reviewId)
             res.status(202).json({data: deletedReview}) 
@@ -41,15 +42,32 @@ router.delete('/:reviewId/delete', isAuthenticated, async ( req,res,next)=>{
     }
 });
 
-// @desc    Shows thus users most recent reviews
+// @desc    Shows the user's most recent reviews of a movie
+// @route   Get /recentMovieReviews
+// @access  User
+router.get('/:movieId/recentMovieReviews', isAuthenticated, async (req,res,next) =>{
+    const {movieId} = req.params
+    try {
+        const reviews = await Review.find({movieId: movieId});
+        const sortedReviews = reviews.sort((a,b)=>(b.createdAt > a.createdAt)? 1 : -1)
+        const twoFirst = sortedReviews.slice(0,2)
+        res.status(200).json({data:twoFirst})
+    } catch (error) {
+    next(error)
+    }
+});
+
+// @desc    Shows the user's most recent reviews.
 // @route   Get /recentUserReviews
 // @access  User
+
 router.get('/recentUserReviews', isAuthenticated, async (req,res,next) =>{
     const userId = req.payload._id
     try {
         const reviews = await Review.find({userId: userId});
-        const sortedReviews = reviews.sort((a,b)=>(b.createdAt > a.createdAt)? 1 : -1).limit(2)
-        res.status(200).json({data:sortedReviews})
+        const sortedReviews = reviews.sort((a,b)=>(b.createdAt > a.createdAt)? 1 : -1)
+        const twoFirst = sortedReviews.slice(0,2)
+        res.status(200).json({data:twoFirst})
     } catch (error) {
     next(error)
     }
