@@ -12,7 +12,7 @@ const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 const reviewsRouter = require('./routes/reviews');
 const votesRouter = require('./routes/votes');
-const watchListRouter = require('./routes/watchlist');
+const watchListRouter = require('./routes/watchList');
 const reviewLikeRouter = require('./routes/reviewLike');
 
 const app = express();

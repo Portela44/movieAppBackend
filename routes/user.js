@@ -15,14 +15,14 @@ router.put('/edit', isAuthenticated, fileUploader.single('imageUrl'), async (req
     if (req.file) {
         imageUrl = req.file.path;
     } else {
-        imageUrl = existingImage
+        imageUrl = existingImage;
     }
     try {
-        const userFromDB = await User.findByIdAndUpdate(userId, {username, email,biography, imageUrl}, {new: true})
-        req.payload = userFromDB
-        res.status(202).json({data: userFromDB})
+        const userFromDB = await User.findByIdAndUpdate(userId, {username, email,biography, imageUrl}, {new: true});
+        req.payload = userFromDB;
+        res.status(202).json({data: userFromDB});
     } catch (error) {
-        next(error)
+        next(error);
     }
 });
 
@@ -30,26 +30,25 @@ router.put('/edit', isAuthenticated, fileUploader.single('imageUrl'), async (req
 // @route   DELETE /user/delete
 // @access  User
 router.delete('/delete', isAuthenticated, async (req,res,next) =>{
-    const userId = req.payload
+    const userId = req.payload;
     try {
-        const deletedUser = await User.findByIdAndDelete(userId)
-        res.status(202).json({data: deletedUser})
+        const deletedUser = await User.findByIdAndDelete(userId);
+        res.status(202).json({data: deletedUser});
     } catch (error) {
-        next(error)
+        next(error);
     }
-})
+});
 
 // @desc    Shows userlist to Admin
 // @route   Get /user/userList
 // @access  Admin
-router.get('/userList', async (req,res,next)=>{
-
+router.get('/userList', async (req, res, next) => {
     try {
         const users = await User.find({});
-        res.status(200).json({ data: users })
+        res.status(200).json({ data: users });
     } catch (error) {
-        next(error)
+        next(error);
     }
-})
+});
 
 module.exports = router;

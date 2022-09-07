@@ -8,9 +8,4 @@ const {isAuthenticated} = require('../middlewares/jwt');
 
 
 
-
-
- 
-
-
 module.exports = router;

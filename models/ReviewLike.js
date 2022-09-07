@@ -5,11 +5,11 @@ const reviewLikeSchema = new Schema(
     {
         userId: {
             type: Schema.Types.ObjectId,
-            ref: "User",
+            ref: "User"
         },
         reviewId:{
             type: Schema.Types.ObjectId,
-            ref:"Vote",
+            ref:"Vote"
         }
     },
     {

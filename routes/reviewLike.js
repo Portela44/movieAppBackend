@@ -14,7 +14,7 @@ router.post("/reviewId/add", isAuthenticated, async(req, res, next) => {
     try {
         const existingLike = await ReviewLike.find({userId: userId, reviewId: reviewId});
         if(!existingLike) {
-            const addedLike = await ReviewLike.create({userId: userId, reviewId:reviewId});
+            const addedLike = await ReviewLike.create({userId: userId, reviewId: reviewId});
             res.status(201).json({data: addedLike})
         }
     } catch (error) {
@@ -31,7 +31,7 @@ router.delete("/reviewId/remove", isAuthenticated, async(req, res, next) => {
     try {
         const existingLike = await ReviewLike.find({userId: userId, reviewId: reviewId});
         if(existingLike) {
-            const removedLike = await ReviewLike.findOneAndDelete({userId: userId, reviewId:reviewId});
+            const removedLike = await ReviewLike.findOneAndDelete({userId: userId, reviewId: reviewId});
             res.status(202).json({data: removedLike})
         }
     } catch (error) {

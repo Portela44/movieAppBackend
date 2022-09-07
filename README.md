@@ -209,7 +209,7 @@ Votes in the database have the following properties:
         ignore: {
             type: Boolean,
         },
-        watchlist: {
+        watchList: {
             type: Boolean,
         }
 }
