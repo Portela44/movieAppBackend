@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const {isAuthenticated} = require('../middlewares/jwt')
 const User = require("../models/User");
 const fileUploader = require('../config/cloudinary.config');
