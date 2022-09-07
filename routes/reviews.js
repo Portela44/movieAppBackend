@@ -73,4 +73,24 @@ router.get('/recentUserReviews', isAuthenticated, async (req,res,next) =>{
     }
 });
 
+// @desc    User likes a review.
+// @route   Post /:reviewId/like
+// @access  User
+
+router.post('/:reviewId/like', isAuthenticated, async(req,res,next)=>{
+    const userId = req.payload._id
+    const {reviewId} = req.params
+    try {
+        //makes sure that user can only vote once
+        const existingLike = await ReviewLike.find({userId:userId, reviewId})
+        if(existingLike){
+            await ReviewLike.findOneAndDelete({userId:userId, reviewId})
+        }
+        //creates the like
+        const createLike = await ReviewLike.create({userId:userId, reviewId})
+        res.status(201).json({data: createLike})
+    } catch (error) {
+        next(error)
+    }
+})
 module.exports = router;
