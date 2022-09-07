@@ -4,8 +4,10 @@ const mongoose = require("mongoose");
 const Movie = require("../models/Movie");
 const Vote = require("../models/Vote");
 const User = require("../models/User");
-const {isAuthenticated} = require('../middlewares/jwt') 
+const WatchList = require("../models/WatchList");
+const {isAuthenticated} = require('../middlewares/jwt');
 
+<<<<<<< HEAD
 // @desc    Posts add movie to array watchlist
 // @route   POST /votes/:movieId/watchLater
 // @access  User
@@ -28,6 +30,8 @@ try {
     next(error)
 }
 })
+=======
+>>>>>>> add-to-watchlist
 
 
 module.exports = router;
