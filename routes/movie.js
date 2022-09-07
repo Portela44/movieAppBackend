@@ -139,4 +139,111 @@ router.delete("/create", async(req, res, next) => {
     }
 });
 
+// @desc    Shows its own vote list to each user, sorted by release date (premiere)
+// @route   GET /movies/byDate
+// @access  User
+router.get("/voteList/byDate", isAuthenticated, async(req, res, next) => {
+    const userId = req.payload._id;
+    try {
+        const votedMovies = await Vote.find({userId: userId}).populate("movieId");
+        votedMovies.sort((a, b) => { return b.movieId.premiere - a.movieId.premiere;});
+        res.status(202).json({data: votedMovies});
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @desc    Shows its own vote list to each user, sorted by popularity (premiere)
+// @route   GET /movies/byRating
+// @access  User
+router.get("/voteList/byRating", isAuthenticated, async(req, res, next) => {
+    const userId = req.payload._id;
+    try {
+        const votedMovies = await Vote.find({userId: userId}).populate("movieId");
+        votedMovies.sort((a, b) => { return b.movieId.imdb_rating - a.movieId.imdb_rating;});
+        res.status(202).json({data: votedMovies});
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @desc    Shows its own vote list to each user, sorted by popularity (premiere)
+// @route   GET /movies/byPopularity
+// @access  User
+router.get("/voteList/byPopularity", isAuthenticated, async(req, res, next) => {
+    const userId = req.payload._id;
+    try {
+        const votedMovies = await Vote.find({userId: userId}).populate("movieId");
+        votedMovies.sort((a, b) => { return b.movieId.imdb_vote - a.movieId.imdb_vote;});
+        res.status(202).json({data: votedMovies});
+    } catch (error) {
+        next(error);
+    }
+});
+
+// @desc    Allows the user to update its own filters to get personalized recommendations.
+// @route   POST /movies/filter
+// @access  User
+router.post("/filter", isAuthenticated, async(req, res, next) => {
+    const userId = req.payload._id;
+    const {action, drama, fantasy, comedy, mystery, adventure, war, scifi, romance, history, documentary, crime} = req.body;
+    const newPreferences = [];
+    if(req.body.action === "on") {
+        newPreferences.push("1");
+    };
+    if(req.body.drama === "on") {
+        newPreferences.push("12");
+    };
+    if(req.body.fantasy === "on") {
+        newPreferences.push("14");
+    };
+    if(req.body.comedy === "on") {
+        newPreferences.push("8");
+    };
+    if(req.body.mystery === "on") {
+        newPreferences.push("22");
+    };
+    if(req.body.adventure === "on") {
+        newPreferences.push("3");
+    };
+    if(req.body.war === "on") {
+        newPreferences.push("34");
+    };
+    if(req.body.scifi === "on") {
+        newPreferences.push("27");
+    };
+    if(req.body.romance === "on") {
+        newPreferences.push("26");
+    };
+    if(req.body.history === "on") {
+        newPreferences.push("20");
+    };
+    if(req.body.documentary === "on") {
+        newPreferences.push("11");
+    };
+    if(req.body.crime === "on") {
+        newPreferences.push("10");
+    };
+    try {
+        const updatedPrefUser = await User.findByIdAndUpdate(userId, {preferences: newPreferences}, {new: true});
+        req.payload = updatedPrefUser;
+        res.status(202).json({data: newPreferences});
+    } catch (error) {
+        next(error)
+    }
+});
+
+// @desc    Displays a random movie which can be consulted or voted.
+// @route   GET /:movieId
+// @access  User
+router.get("/:movieId", isAuthenticated, async(req, res, next) => {
+    const movieId = req.params;
+    try {
+        const movieFromDB = await Movie.findById(movieId);
+        res.status(202).json({data: movieFromDB});
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = router;

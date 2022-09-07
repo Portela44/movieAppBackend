@@ -11,7 +11,7 @@ const ReviewLike = require('../models/ReviewLike');
 // @access  User
 router.post('/:movieId/create', isAuthenticated, async (req,res,next)=>{
     const{movieId} = req.params
-    const {titleReview ,review} = req.body;
+    const {titleReview, review} = req.body;
     const userId = req.payload._id
     try {
         const newReview = await Review.create({titleReview, review, userId, movieId})
@@ -60,7 +60,6 @@ router.get('/:movieId/recentMovieReviews', isAuthenticated, async (req,res,next)
 // @desc    Shows the user's most recent reviews.
 // @route   Get /recentUserReviews
 // @access  User
-
 router.get('/recentUserReviews', isAuthenticated, async (req,res,next) =>{
     const userId = req.payload._id
     try {
@@ -76,7 +75,6 @@ router.get('/recentUserReviews', isAuthenticated, async (req,res,next) =>{
 // @desc    User likes a review.
 // @route   Post /:reviewId/like
 // @access  User
-
 router.post('/:reviewId/like', isAuthenticated, async(req,res,next)=>{
     const userId = req.payload._id
     const {reviewId} = req.params
@@ -92,21 +90,20 @@ router.post('/:reviewId/like', isAuthenticated, async(req,res,next)=>{
     } catch (error) {
         next(error)
     }
-})
+});
 
 // @desc    User removes like.
 // @route   Post /:reviewId/removeLike
 // @access  User
-
 router.delete('/:reviewId/removeLike', isAuthenticated, async(req,res,next)=>{
     const userId = req.payload._id
     const {reviewId} = req.params
-
     try {
         const deleteLike = await ReviewLike.findOneAndDelete({userId: userId, reviewId})
         res.status(202).json({data: deleteLike})
     } catch (error) {
         next(error)
     }
-})
+});
+
 module.exports = router;
