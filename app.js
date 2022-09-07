@@ -12,7 +12,8 @@ const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 const reviewsRouter = require('./routes/reviews');
 const votesRouter = require('./routes/votes');
-const watchListRouter = require('./routes/watchlist')
+const watchListRouter = require('./routes/watchlist');
+const reviewLikeRouter = require('./routes/reviewLike');
 
 const app = express();
 
@@ -36,7 +37,8 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/reviews', reviewsRouter)
 app.use('/api/v1/votes', votesRouter);
-app.use('/api/v1/watchList', watchListRouter)
+app.use('/api/v1/watchList', watchListRouter);
+app.use('/api/v1/reviewLike', reviewLikeRouter)
 app.use(errorHandler);
 
 // catch 404 and forward to error handler
