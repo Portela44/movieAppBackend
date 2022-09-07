@@ -13,12 +13,13 @@ router.post("/reviewId/addRemove", isAuthenticated, async(req, res, next) => {
     const {reviewId} = req.params;
     try {
         const existingLike = await ReviewLike.find({userId: userId, reviewId: reviewId});
-        if(existingLike) {
-            
+        if(!existingLike) {
+            const addedLike = await ReviewLike.create({userId: userId, reviewId:reviewId});
+            res.status(201).json({data: addedLike})
         }
     } catch (error) {
-        
+        next(error);
     }
-})
+});
 
 module.exports = router;
