@@ -49,4 +49,21 @@ router.post("/:movieId/like", isAuthenticated, async (req, res, next) => {
     }
 });
 
+// @desc    Posts vote to the database (dislike).
+// @route   POST /votes/:movieId/dislike
+// @access  User
+router.post("/:movieId/like", isAuthenticated, async (req, res, next) => {
+    const {movieId} = req.params;
+    const user = req.payload;
+    try {
+        const existingVote = await Vote.find({userId: user._id, movieId: movieId});
+        if(existingVote) {
+            await Vote.findOneAndDelete({userId: user._id, movieId: movieId});
+        }
+        await Vote.create({userId: user._id, movieId, vote:false});
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = router;
