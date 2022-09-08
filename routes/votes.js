@@ -42,7 +42,8 @@ router.post("/:movieId/like", isAuthenticated, async (req, res, next) => {
         if(existingVote) {
             await Vote.findOneAndDelete({userId: user._id, movieId: movieId});
         }
-        await Vote.create({userId: user._id, movieId, vote:true});
+        const voteAdded = await Vote.create({userId: user._id, movieId, vote:true});
+        res.status(201).json({data: voteAdded});
     } catch (error) {
         next(error);
     }
@@ -59,7 +60,8 @@ router.post("/:movieId/dislike", isAuthenticated, async (req, res, next) => {
         if(existingVote) {
             await Vote.findOneAndDelete({userId: user._id, movieId: movieId});
         }
-        await Vote.create({userId: user._id, movieId, vote:false});
+        const voteAdded = await Vote.create({userId: user._id, movieId, vote:false});
+        res.status(201).json({data: voteAdded});
     } catch (error) {
         next(error);
     }
@@ -76,7 +78,8 @@ router.post("/:movieId/ignore", isAuthenticated, async (req, res, next) => {
         if(existingVote) {
             await Vote.findOneAndDelete({userId: user._id, movieId: movieId});
         }
-        await Vote.create({userId: user._id, movieId, ignore:true});
+        const voteAdded = await Vote.create({userId: user._id, movieId, ignore:true});
+        res.status(201).json({data: voteAdded});
     } catch (error) {
         next(error);
     }
