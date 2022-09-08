@@ -36,16 +36,16 @@ router.get("/voteList", isAuthenticated, async(req, res, next) => {
     }
 });
 
-// @desc    Displays a view where user can search a movie
+// @desc    Searches for a movie in the database based on a user body input.
 // @route   GET /movies/search-movie
 // @access  Public
 router.get("/search-movie", async(req, res, next) => {
-    const movieSearchString = req.query;
+    const { movieSearchString } = req.body;
     try {
-        const foundMovies = await Movie.find({title: {$regex: `(.*)${movieSearchString}(.*)`}}).limit(10);
+        const foundMovies = await Movie.find({name: {$regex: `${movieSearchString}`, $options: "i"}}).limit(1);
         res.status(202).json({data: foundMovies});
     } catch (error) {
-        next(error);
+        next(new ErrorResponse('Something went wrong', 400));
     }
 });
 
@@ -53,10 +53,10 @@ router.get("/search-movie", async(req, res, next) => {
 // @route   GET /movies/api-search-by-name
 // @access  Admin
 router.get("/api-search-by-name", async(req, res, next) => {
-    const movieSearchString = req.query;
+    const { movieSearchString } = req.body;
     try {
         const movieImdbId = await imdbId(`${movieSearchString}`);
-        const movieInfo = await metafilm.id({ imdb_id: `${movieImdbId}` });
+        const movieInfo = await metafilm.id({ imdb_id: `${movieImdbId}` })
         res.status(202).json({data: movieInfo});
     } catch (error) {
         next(error);
