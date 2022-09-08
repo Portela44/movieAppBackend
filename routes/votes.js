@@ -3,6 +3,7 @@ const router = express.Router();
 const {isAuthenticated} = require('../middlewares/jwt');
 const Movie = require("../models/Movie");
 const Vote = require("../models/Vote");
+const ErrorResponse = require('../utils/error');
 
 // const getNextMovie = async (user) => {
 //     let votedMovieIdArr = [];
@@ -80,6 +81,7 @@ router.post("/:movieId/ignore", isAuthenticated, async (req, res, next) => {
         }
         const voteAdded = await Vote.create({userId: user._id, movieId, ignore:true});
         res.status(201).json({data: voteAdded});
+        
     } catch (error) {
         next(error);
     }

@@ -25,15 +25,15 @@ router.post("/:reviewId/add", isAuthenticated, async(req, res, next) => {
 // @desc    User removes a like from a review.
 // @route   DELETE reviewLike/:reviewId/remove
 // @access  User
-router.delete("/reviewId/remove", isAuthenticated, async(req, res, next) => {
+router.delete("/:reviewId/remove", isAuthenticated, async(req, res, next) => {
     const userId = req.payload._id;
     const {reviewId} = req.params;
     try {
         const existingLike = await ReviewLike.find({userId: userId, reviewId: reviewId});
-        if(existingLike) {
+        //if(existingLike) {
             const removedLike = await ReviewLike.findOneAndDelete({userId: userId, reviewId: reviewId});
             res.status(202).json({data: removedLike})
-        }
+        //}
     } catch (error) {
         next(error);
     }

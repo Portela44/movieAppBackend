@@ -10,6 +10,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
+const moviesRouter = require('./routes/movies');
 const reviewsRouter = require('./routes/reviews');
 const votesRouter = require('./routes/votes');
 const watchListRouter = require('./routes/watchList');
@@ -35,6 +36,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/', indexRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userRouter);
+app.use('/api/v1/movies', moviesRouter);
 app.use('/api/v1/reviews', reviewsRouter)
 app.use('/api/v1/votes', votesRouter);
 app.use('/api/v1/watchList', watchListRouter);
