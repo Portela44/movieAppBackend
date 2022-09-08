@@ -9,6 +9,8 @@ const imdbId = require("imdb-id");
 const metafilm = require("metafilm");
 const colage = require("colage");
 const { isAuthenticated } = require("../middlewares/jwt");
+const Review = require("../models/Review");
+const ReviewLike = require("../models/ReviewLike");
 
 // @desc    Shows all movies ignored by the user
 // @route   GET /movies/ignored
@@ -67,7 +69,7 @@ router.get("/api-search-by-name", async(req, res, next) => {
 // @route   GET /movies/api-search-by-imdbId
 // @access  Admin
 router.get("/api-search-by-imdbId", async(req, res, next) => {
-    const movieIdString = req.query;
+    const { movieIdString } = req.body;
     try {
         const movieInfo = await metafilm.id({ imdb_id: `${movieIdString}` });
         res.status(202).json({data: movieInfo});
@@ -82,7 +84,10 @@ router.get("/api-search-by-imdbId", async(req, res, next) => {
 router.delete("/:movieId/delete", async(req, res, next) => {
     const {movieId} = req.params;
     try {
-        const deletedMovie = Movie.findByIdAndDelete(movieId)
+        const deletedMovie = await Movie.findByIdAndDelete(movieId);
+        await Vote.deleteMany({movieId: movieId});
+        await Review.deleteMany({movieId: movieId});
+        await ReviewLike.deleteMany({movieId: movieId});
         res.status(202).json({data: deletedMovie});
     } catch (error) {
         next(error);
