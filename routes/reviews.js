@@ -40,6 +40,23 @@ router.delete('/:reviewId/delete', isAuthenticated, async ( req, res, next)=>{
     }
 });
 
+// @desc    Admin can delete any review
+// @route   Delete /reviews/delete
+// @access  User
+
+//missing admin middleware
+
+router.delete('/:reviewId/adminDelete', isAuthenticated, async ( req, res, next)=>{
+    const{reviewId} = req.params;
+    try {
+        const deletedReview = await Review.findByIdAndDelete(reviewId);
+        await ReviewLike.deleteMany({reviewId: reviewId});
+        res.status(202).json({data: deletedReview});      
+    } catch (error) {
+        next(error);
+    }
+});
+
 // @desc    Shows the user's most recent reviews of a movie
 // @route   Get /reviews/recentMovieReviews
 // @access  User

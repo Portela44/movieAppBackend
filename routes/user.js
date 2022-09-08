@@ -39,6 +39,21 @@ router.delete('/delete', isAuthenticated, async (req,res,next) =>{
     }
 });
 
+// @desc    Admin can delete any users
+// @route   DELETE /user/:userId/delete
+// @access  User
+
+// missing is admin middleware
+router.delete('/:userId/delete', isAuthenticated, async (req,res,next) =>{
+    const {userId} = req.params;
+    try {
+        const deletedUser = await User.findByIdAndDelete(userId);
+        res.status(202).json({data: deletedUser});
+    } catch (error) {
+        next(error);
+    }
+});
+
 // @desc    Shows userlist to Admin
 // @route   Get /user/userList
 // @access  Admin

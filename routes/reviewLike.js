@@ -8,15 +8,15 @@ const ReviewLike = require('../models/ReviewLike');
 // @desc    User likes a review.
 // @route   POST reviewLike/:reviewId/add
 // @access  User
-router.post("/reviewId/add", isAuthenticated, async(req, res, next) => {
+router.post("/:reviewId/add", isAuthenticated, async(req, res, next) => {
     const userId = req.payload._id;
     const {reviewId} = req.params;
     try {
         const existingLike = await ReviewLike.find({userId: userId, reviewId: reviewId});
-        if(!existingLike) {
+        //if(!existingLike) {
             const addedLike = await ReviewLike.create({userId: userId, reviewId: reviewId});
             res.status(201).json({data: addedLike})
-        }
+        //}
     } catch (error) {
         next(error);
     }
