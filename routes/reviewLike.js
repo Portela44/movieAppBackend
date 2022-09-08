@@ -12,13 +12,13 @@ router.post("/:reviewId/add", isAuthenticated, async(req, res, next) => {
     const userId = req.payload._id;
     const {reviewId} = req.params;
     try {
-        const existingLike = await ReviewLike.findOne({userId: userId, reviewId: reviewId});
-        if(!existingLike) {
+        //const existingLike = await ReviewLike.findOne({userId: userId, reviewId: reviewId});
+        //if(!existingLike) {
             const addedLike = await ReviewLike.create({userId: userId, reviewId: reviewId});
             res.status(201).json({data: addedLike})
-        } else {
-            return next(new ErrorResponse('already liked bro', 400))
-        }
+        //} else {
+            //return next(new ErrorResponse('This movie has been already liked', 400))
+       // }
     } catch (error) {
         next(error);
     }
@@ -31,11 +31,8 @@ router.delete("/:reviewId/remove", isAuthenticated, async(req, res, next) => {
     const userId = req.payload._id;
     const {reviewId} = req.params;
     try {
-        const existingLike = await ReviewLike.find({userId: userId, reviewId: reviewId});
-        //if(existingLike) {
-            const removedLike = await ReviewLike.findOneAndDelete({userId: userId, reviewId: reviewId});
+            const removedLike = await ReviewLike.findOneAndDelete({userId: userId, reviewId});
             res.status(202).json({data: removedLike})
-        //}
     } catch (error) {
         next(error);
     }

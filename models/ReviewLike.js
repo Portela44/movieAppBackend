@@ -9,7 +9,7 @@ const reviewLikeSchema = new Schema(
         },
         reviewId:{
             type: Schema.Types.ObjectId,
-            ref:"Vote"
+            ref:"Review"
         }
     },
     {

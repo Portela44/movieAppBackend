@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const WatchList = require("../models/WatchList");
+const ErrorResponse = require('../utils/error');
 const {isAuthenticated} = require('../middlewares/jwt');
 
 // @desc    Posts add movie to watchlist
@@ -10,8 +11,14 @@ router.post('/:movieId/addToWatchlist', isAuthenticated, async (req, res, next)=
     const userId = req.payload._id;
     const {movieId} = req.params;
     try {
-        const addedMovie = await WatchList.create({movieId, userId:userId});
-        res.status(201).json({data: addedMovie});
+        const movieInWatchList = await WatchList.findOne({userId: userId, movieId: movieId});
+        if(!movieInWatchList){
+            const addedMovie = await WatchList.create({movieId, userId:userId});
+            res.status(201).json({data: addedMovie});
+        } else{
+            return next(new ErrorResponse('This movie is already in your watchlist', 400))
+        }
+        
     } catch (error) {
         next(error);
     }
