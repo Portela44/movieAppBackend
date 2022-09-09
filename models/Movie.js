@@ -4,11 +4,10 @@ const movieSchema = new Schema(
     {
         imdb_id: {
             type: String,
-            unique: true
+            unique:true
         },
         name: {
             type: String,
-            unique: true
         },
         year: {
             type: Number,
