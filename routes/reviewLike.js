@@ -10,6 +10,7 @@ const ReviewLike = require('../models/ReviewLike');
 // @access  User
 router.post("/:reviewId/add", isAuthenticated, async(req, res, next) => {
     const userId = req.payload._id;
+    console.log(req.payload)
     const {reviewId} = req.params;
     try {
             const addedLike = await ReviewLike.create({userId: userId, reviewId: reviewId});
