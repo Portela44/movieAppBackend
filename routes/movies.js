@@ -129,7 +129,7 @@ router.put("/:movieId/edit", async(req, res, next) => {
 // @desc    Creates a new movie in the database
 // @route   POST /movies/create
 // @access  Admin
-router.delete("/create", async(req, res, next) => {
+router.post("/create", async(req, res, next) => {
     const { imdb_id, name, year, image1, premiere, genre1, genre2, genre3, people1, people2, people3, imdb_rating, imdb_vote, poster1, overview } = req.body;
     const image = { og: image1 }
     const genres = [genre1, genre2, genre3];
@@ -138,6 +138,7 @@ router.delete("/create", async(req, res, next) => {
     const translations = [{ overview, poster }]
     try {
         const newMovie = await Movie.create({ imdb_id, name, year, image, premiere, genres, people, imdb_rating, imdb_vote, translations}, { new: true });
+        console.log(newMovie);
         res.status(202).json({data: newMovie});
     } catch (error) {
         next(error);
