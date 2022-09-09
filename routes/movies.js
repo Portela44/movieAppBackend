@@ -12,6 +12,37 @@ const { isAuthenticated } = require("../middlewares/jwt");
 const Review = require("../models/Review");
 const ReviewLike = require("../models/ReviewLike");
 
+// @desc    Gets a random movieId considering user preferences and 
+// @route   GET /movies/next
+// @access  User
+router.get("/next", isAuthenticated, async(req, res, next) => {
+    const user = req.payload;
+    let votedMovieIdArr = [];
+    try {
+        let votes = await Vote.find({userId: user._id});
+        votes.forEach(vote => {
+            votedMovieIdArr.push(String(vote.movieId));
+        });
+        let nextMovie = await Movie.aggregate([{$sample: {size: 1}}]);
+        let nextMovie0 = nextMovie[0];
+        while(votedMovieIdArr.includes(String(nextMovie0._id))) {
+            nextMovie = await Movie.aggregate([{$sample: {size: 1}}]);
+            nextMovie0 = nextMovie[0];
+        };
+        for(let i = 0; i < nextMovie0.genres.length; i++) {
+            if(user.preferences.length > 0) {
+                while(!user.preferences.includes(nextMovie0.genres[i])) {
+                    nextMovie = await Movie.aggregate([{$sample: {size: 1}}]);
+                    nextMovie0 = nextMovie[0];
+                }
+            }
+        }
+        res.status(202).json({data: nextMovie0});
+    } catch (error) {
+        next(error);
+    }
+});
+
 // @desc    Shows all movies ignored by the user
 // @route   GET /movies/ignored
 // @access  User
@@ -186,11 +217,11 @@ router.get("/voteList/byPopularity", isAuthenticated, async(req, res, next) => {
     }
 });
 
-// @desc    Displays a random movie which can be consulted or voted.
+// @desc    Displays a movie by Id which can be consulted or voted.
 // @route   GET /:movieId
 // @access  User
 router.get("/:movieId", isAuthenticated, async(req, res, next) => {
-    const movieId = req.params;
+    const {movieId} = req.params;
     try {
         const movieFromDB = await Movie.findById(movieId);
         res.status(202).json({data: movieFromDB});
