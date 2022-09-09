@@ -137,8 +137,7 @@ router.post("/create", async(req, res, next) => {
     const poster = { og: poster1 };
     const translations = [{ overview, poster }]
     try {
-        const newMovie = await Movie.create({ imdb_id, name, year, image, premiere, genres, people, imdb_rating, imdb_vote, translations}, { new: true });
-        console.log(newMovie);
+        const newMovie = await Movie.create({ imdb_id, name, year, image, premiere, genres, people, imdb_rating, imdb_vote, translations});
         res.status(202).json({data: newMovie});
     } catch (error) {
         next(error);
