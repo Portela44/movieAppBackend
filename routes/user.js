@@ -66,4 +66,56 @@ router.get('/userList', async (req, res, next) => {
     }
 });
 
+// @desc    Allows the user to update its own filters to get personalized recommendations.
+// @route   PUT /user/preferences
+// @access  User
+router.put("/preferences", isAuthenticated, async(req, res, next) => {
+    const userId = req.payload._id;
+    const {action, drama, fantasy, comedy, mystery, adventure, war, scifi, romance, history, documentary, crime} = req.body;
+    const newPreferences = [];
+    if(req.body.action === "on") {
+        newPreferences.push("1");
+    };
+    if(req.body.drama === "on") {
+        newPreferences.push("12");
+    };
+    if(req.body.fantasy === "on") {
+        newPreferences.push("14");
+    };
+    if(req.body.comedy === "on") {
+        newPreferences.push("8");
+    };
+    if(req.body.mystery === "on") {
+        newPreferences.push("22");
+    };
+    if(req.body.adventure === "on") {
+        newPreferences.push("3");
+    };
+    if(req.body.war === "on") {
+        newPreferences.push("34");
+    };
+    if(req.body.scifi === "on") {
+        newPreferences.push("27");
+    };
+    if(req.body.romance === "on") {
+        newPreferences.push("26");
+    };
+    if(req.body.history === "on") {
+        newPreferences.push("20");
+    };
+    if(req.body.documentary === "on") {
+        newPreferences.push("11");
+    };
+    if(req.body.crime === "on") {
+        newPreferences.push("10");
+    };
+    try {
+        const updatedPrefUser = await User.findByIdAndUpdate(userId, {preferences: newPreferences}, {new: true});
+        req.payload = updatedPrefUser;
+        res.status(202).json({data: newPreferences});
+    } catch (error) {
+        next(error)
+    }
+});
+
 module.exports = router;

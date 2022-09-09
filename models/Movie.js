@@ -19,7 +19,9 @@ const movieSchema = new Schema(
             lg: String,
             og: String
         },
-        premiere: String,
+        premiere: {
+            type: String,
+        },
         genres: [String],
         people: [
             {
