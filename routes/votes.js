@@ -15,9 +15,10 @@ router.post("/:movieId/like", isAuthenticated, async (req, res, next) => {
         const existingVote = await Vote.find({userId: user._id, movieId: movieId});
         if(existingVote) {
             await Vote.findOneAndDelete({userId: user._id, movieId: movieId});
-        }
+        };
         const voteAdded = await Vote.create({userId: user._id, movieId, vote:true});
         res.status(201).json({data: voteAdded});
+        console.log(voteAdded);
     } catch (error) {
         next(error);
     }
