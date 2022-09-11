@@ -44,7 +44,7 @@ router.delete('/:movieId/remove', isAuthenticated, async (req, res, next)=>{
 router.get('/myWatchList', isAuthenticated, async (req, res, next)=>{
     const userId = req.payload._id;
     try {
-        const moviesFromDb = await WatchList.find({userId: userId});
+        const moviesFromDb = await WatchList.find({userId: userId}).populate("movieId");
         res.status(200).json({data: moviesFromDb});
     } catch (error) {
         next(error);
