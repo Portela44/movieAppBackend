@@ -60,7 +60,7 @@ router.delete('/:reviewId/adminDelete', isAuthenticated, async ( req, res, next)
 // @desc    Shows the user's most recent reviews of a movie
 // @route   Get /reviews/recentMovieReviews
 // @access  User
-router.get('/:movieId/recentMovieReviews', isAuthenticated, async (req, res, next) =>{
+router.get('/:movieId/recent', isAuthenticated, async (req, res, next) =>{
     const {movieId} = req.params;
     try {
         const reviews = await Review.find({movieId: movieId});
