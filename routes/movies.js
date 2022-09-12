@@ -143,10 +143,10 @@ router.get("/:movieId/edit", async(req, res, next) => {
 // @access  Admin
 router.put("/:movieId/edit", async(req, res, next) => {
     const {movieId} = req.params;
-    const { imdb_id, name, year, image1, premiere, genre1, genre2, genre3, people1, people2, people3, imdb_rating, imdb_vote, poster1, overview } = req.body;
+    const { imdb_id, name, year, image1, premiere, genre1, genre2, genre3, department1, people1, department2, people2, department3, people3, imdb_rating, imdb_vote, poster1, overview } = req.body;
     const image = { og: image1 }
     const genres = [genre1, genre2, genre3];
-    const people = [{ name: people1 }, { name: people2 }, { name: people3 }];
+    const people = [{ name: people1, department: department1 }, { name: people2, department: department2 }, { name: people3, department: department3 }];
     const poster = { og: poster1 };
     const translations = [{ overview, poster }]
     try {
@@ -161,10 +161,10 @@ router.put("/:movieId/edit", async(req, res, next) => {
 // @route   POST /movies/create
 // @access  Admin
 router.post("/create", async(req, res, next) => {
-    const { imdb_id, name, year, image1, premiere, genre1, genre2, genre3, people1, people2, people3, imdb_rating, imdb_vote, poster1, overview } = req.body;
+    const { imdb_id, name, year, image1, premiere, genre1, genre2, genre3, department1, people1, department2, people2, department3, people3, imdb_rating, imdb_vote, poster1, overview } = req.body;
     const image = { og: image1 }
     const genres = [genre1, genre2, genre3];
-    const people = [{ name: people1 }, { name: people2 }, { name: people3 }];
+    const people = [{ name: people1, department: department1 }, { name: people2, department: department2 }, { name: people3, department: department3 }];
     const poster = { og: poster1 };
     const translations = [{ overview, poster }]
     try {
