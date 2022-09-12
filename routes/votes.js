@@ -61,4 +61,14 @@ router.post("/:movieId/ignore", isAuthenticated, async (req, res, next) => {
     }
 });
 
+router.get("/myVotes", isAuthenticated, async (req,res,next) =>{
+    const userId = req.payload._id;
+    try {
+        const votesFromDb = await Vote.find({userId: userId}).populate("movieId");
+        res.status(200).json({data: votesFromDb});
+    } catch (error) {
+        next(error)
+    }
+})
+
 module.exports = router;

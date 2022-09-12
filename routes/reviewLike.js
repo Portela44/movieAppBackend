@@ -34,4 +34,19 @@ router.delete("/:reviewId/remove", isAuthenticated, async(req, res, next) => {
     }
 });
 
+// @desc    User can see the number of likes
+// @route   GET reviewLike/:reviewId/likeAmmount
+// @access  User
+router.get("/:reviewId/likeAmmount", isAuthenticated, async(req, res, next) => {
+    const {reviewId} = req.params;
+    try {
+            const reviewLikes = await ReviewLike.find({reviewId});
+            console.log(reviewLikes)
+            const numberOfLikes = reviewLikes.length
+            res.status(202).json({data: numberOfLikes})
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = router;
