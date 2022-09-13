@@ -6,26 +6,7 @@ const fileUploader = require('../config/cloudinary.config');
 const ErrorResponse = require('../utils/error');
 
 
-// @desc    Updates user from the Database
-// @route   PUT /user/edit
-// @access  User
-// router.put('/edit', isAuthenticated, fileUploader.single('imageUrl'), async (req,res,next) =>{
-//     const userId = req.payload._id;
-//     const {username, email,biography, existingImage} = req.body
-//     let imageUrl;
-//     if (req.file) {
-//         imageUrl = req.file.path;
-//     } else {
-//         imageUrl = existingImage;
-//     }
-//     try {
-//         const userFromDB = await User.findByIdAndUpdate(userId, {username, email,biography, imageUrl}, {new: true});
-//         req.payload = userFromDB;
-//         res.status(202).json({data: userFromDB});
-//     } catch (error) {
-//         next(error);
-//     }
-// });
+
 
 // @desc    gets the logged in user
 // @route   GET /user/loggedInUser
