@@ -19,7 +19,6 @@ router.post("/:movieId/like", isAuthenticated, async (req, res, next) => {
         };
         const voteAdded = await Vote.create({userId: user._id, movieId, vote:true});
         res.status(201).json({data: voteAdded});
-        console.log(voteAdded);
     } catch (error) {
         next(error);
     }
