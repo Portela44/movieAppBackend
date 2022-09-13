@@ -8,6 +8,14 @@ const ErrorResponse = require('../utils/error');
 
 
 
+
+router.post('/upload', fileUploader.single('imageUrl'), (req,res,next) =>{
+    if(!req.file){
+        next(new Error('No file uploaded'));
+        return;
+    }
+    res.json({fileUrl: req.file.path});
+})
 // @desc    gets the logged in user
 // @route   GET /user/loggedInUser
 // @access  User
