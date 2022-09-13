@@ -7,7 +7,7 @@ const {isAuthenticated} = require('../middlewares/jwt');
 // @desc    Posts add movie to watchlist
 // @route   POST /watchList/:movieId/addToWatchlist
 // @access  User
-router.post('/:movieId/addToWatchlist', isAuthenticated, async (req, res, next)=>{
+router.post('/:movieId/add', isAuthenticated, async (req, res, next)=>{
     const userId = req.payload._id;
     const {movieId} = req.params;
     try {
@@ -15,10 +15,9 @@ router.post('/:movieId/addToWatchlist', isAuthenticated, async (req, res, next)=
         if(!movieInWatchList){
             const addedMovie = await WatchList.create({movieId, userId:userId});
             res.status(201).json({data: addedMovie});
-        } else{
+        } else {
             return next(new ErrorResponse('This movie is already in your watchlist', 400))
         }
-        
     } catch (error) {
         next(error);
     }
@@ -39,9 +38,9 @@ router.delete('/:movieId/remove', isAuthenticated, async (req, res, next)=>{
 });
 
 // @desc    Show the user the movies in watchlist
-// @route   GET /watchList/myWatchList
+// @route   GET /watchList
 // @access  User
-router.get('/myWatchList', isAuthenticated, async (req, res, next)=>{
+router.get('/', isAuthenticated, async (req, res, next)=>{
     const userId = req.payload._id;
     try {
         const moviesFromDb = await WatchList.find({userId: userId}).populate("movieId");

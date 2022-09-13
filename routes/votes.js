@@ -9,6 +9,7 @@ const ErrorResponse = require('../utils/error');
 // @route   POST /votes/:movieId/like
 // @access  User
 router.post("/:movieId/like", isAuthenticated, async (req, res, next) => {
+    console.log('Entering route', req);
     const {movieId} = req.params;
     const user = req.payload;
     try {

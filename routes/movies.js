@@ -220,7 +220,7 @@ router.get("/voteList/byPopularity", isAuthenticated, async(req, res, next) => {
 // @desc    Displays a movie by Id which can be consulted or voted.
 // @route   GET /:movieId
 // @access  User
-router.get("/:movieId", isAuthenticated, async(req, res, next) => {
+router.get("/:movieId", async(req, res, next) => {
     const {movieId} = req.params;
     try {
         const movieFromDB = await Movie.findById(movieId);
