@@ -3,28 +3,65 @@ const router = express.Router();
 const {isAuthenticated} = require('../middlewares/jwt')
 const User = require("../models/User");
 const fileUploader = require('../config/cloudinary.config');
+const ErrorResponse = require('../utils/error');
 
+
+
+
+
+router.post('/upload', fileUploader.single('imageUrl'), (req,res,next) =>{
+    if(!req.file){
+        next(new Error('No file uploaded'));
+        return;
+    }
+    res.json({fileUrl: req.file.path});
+})
+// @desc    gets the logged in user
+// @route   GET /user/loggedInUser
+// @access  User
+
+router.get('/loggedInUser', isAuthenticated, async (req,res,next) =>{
+    try {
+        const user = await User.findById(req.payload._id);
+        if(!user){
+            next(new ErrorResponse('No user found', 404));
+            return;
+        }
+        res.status(200).json({data: user})
+    } catch (error) {
+        next(error)
+    }
+})
 
 // @desc    Updates user from the Database
 // @route   PUT /user/edit
 // @access  User
-router.put('/edit', isAuthenticated, fileUploader.single('imageUrl'), async (req,res,next) =>{
-    const userId = req.payload._id;
-    const {username, email,biography, existingImage} = req.body
-    let imageUrl;
-    if (req.file) {
-        imageUrl = req.file.path;
-    } else {
-        imageUrl = existingImage;
+
+router.put('/edit', isAuthenticated, async (req,res,next) =>{
+    const {username, email, biography, existingImage} = req.body
+
+    if(email === '' || username === ''){
+        return next(new ErrorResponse('Please fill all the fields.', 400))
     }
-    try {
-        const userFromDB = await User.findByIdAndUpdate(userId, {username, email,biography, imageUrl}, {new: true});
-        req.payload = userFromDB;
-        res.status(202).json({data: userFromDB});
-    } catch (error) {
-        next(error);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    if (!emailRegex.test(email)) {
+         return next(new ErrorResponse('Email is not a valid format', 400))
+  }
+
+  try {
+    const user = await User.findById(req.payload._id);
+    if(!user){
+        next(new ErrorResponse('No user found', 404));
+        return;
+    } else{
+        const updatedUser = await User.findByIdAndUpdate(req.payload._id, req.body, {new:true});
+        res.status(200).json({data: updatedUser})
     }
-});
+  } catch (error) {
+    next(error)
+  }
+})
 
 // @desc    Deletes user from the Database
 // @route   DELETE /user/delete
