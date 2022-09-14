@@ -85,11 +85,11 @@ router.get("/search/:search", async(req, res, next) => {
 // @desc    Displays movie information coming from an API in the console, so it can be copy-pasted into the seed. Search is made by movie title.
 // @route   GET /movies/api-search-by-name
 // @access  Admin
-router.get("/api-search-by-name", isAuthenticated, isAdmin, async(req, res, next) => {
-    const { movieSearchString } = req.body;
+router.get("/api-search-by-name/:search", isAuthenticated, async(req, res, next) => {
+    const { search } = req.params;
     try {
-        const movieImdbId = await imdbId(`${movieSearchString}`);
-        const movieInfo = await metafilm.id({ imdb_id: `${movieImdbId}` })
+        const movieImdbId = await imdbId(`${search}`);
+        const movieInfo = await metafilm.id({ imdb_id: `${movieImdbId}` });
         res.status(202).json({data: movieInfo});
     } catch (error) {
         next(error);
@@ -99,10 +99,10 @@ router.get("/api-search-by-name", isAuthenticated, isAdmin, async(req, res, next
 // @desc    Displays movie information coming from an API in the console, so it can be copy-pasted into the seed. Search is made by imdbId.
 // @route   GET /movies/api-search-by-imdbId
 // @access  Admin
-router.get("/api-search-by-imdbId", isAuthenticated, isAdmin, async(req, res, next) => {
-    const { movieIdString } = req.body;
+router.get("/api-search-by-imdbId/:search", isAuthenticated, async(req, res, next) => {
+    const { search } = req.params;
     try {
-        const movieInfo = await metafilm.id({ imdb_id: `${movieIdString}` });
+        const movieInfo = await metafilm.id({ imdb_id: `${search}` });
         res.status(202).json({data: movieInfo});
     } catch (error) {
         next(error);
