@@ -8,10 +8,13 @@ const ErrorResponse = require('../utils/error');
 
 
 
+// @desc    Uploads a picture in claudinary
+// @route   GET /user/upload
+// @access  User
 
 router.post('/upload', fileUploader.single('imageUrl'), (req,res,next) =>{
     if(!req.file){
-        next(new Error('No file uploaded'));
+        next(new ErrorResponse('No file uploaded', 500));
         return;
     }
     res.json({fileUrl: req.file.path});
@@ -38,7 +41,7 @@ router.get('/loggedInUser', isAuthenticated, async (req,res,next) =>{
 // @access  User
 
 router.put('/edit', isAuthenticated, async (req,res,next) =>{
-    const {username, email, biography, existingImage} = req.body
+    const {username, email, biography, imageUrl} = req.body
 
     if(email === '' || username === ''){
         return next(new ErrorResponse('Please fill all the fields.', 400))
