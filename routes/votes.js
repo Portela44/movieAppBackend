@@ -61,6 +61,10 @@ router.post("/:movieId/ignore", isAuthenticated, async (req, res, next) => {
     }
 });
 
+// @desc    checks user's votes.
+// @route   POST /votes/myVotes
+// @access  User
+
 router.get("/myVotes", isAuthenticated, async (req,res,next) =>{
     const userId = req.payload._id;
     try {

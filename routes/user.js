@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {isAuthenticated} = require('../middlewares/jwt')
+const {isAuthenticated, isAdmin} = require('../middlewares/jwt')
 const User = require("../models/User");
 const fileUploader = require('../config/cloudinary.config');
 const ErrorResponse = require('../utils/error');
@@ -81,10 +81,10 @@ router.delete('/delete', isAuthenticated, async (req,res,next) =>{
 
 // @desc    Admin can delete any users
 // @route   DELETE /user/:userId/delete
-// @access  User
+// @access  Admin
 
-// missing is admin middleware
-router.delete('/:userId/delete', isAuthenticated, async (req,res,next) =>{
+
+router.delete('/:userId/delete', isAuthenticated, isAdmin, async (req,res,next) =>{
     const {userId} = req.params;
     try {
         const deletedUser = await User.findByIdAndDelete(userId);
@@ -97,7 +97,7 @@ router.delete('/:userId/delete', isAuthenticated, async (req,res,next) =>{
 // @desc    Shows userlist to Admin
 // @route   Get /user/userList
 // @access  Admin
-router.get('/userList', async (req, res, next) => {
+router.get('/userList', isAuthenticated,isAdmin, async (req, res, next) => {
     try {
         const users = await User.find({});
         res.status(200).json({ data: users });

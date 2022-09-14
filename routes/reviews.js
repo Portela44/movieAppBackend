@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ErrorResponse = require('../utils/error');
-const {isAuthenticated} = require('../middlewares/jwt')
+const {isAuthenticated, isAdmin} = require('../middlewares/jwt')
 const Review = require("../models/Review");
 const ReviewLike = require('../models/ReviewLike');
 
@@ -44,9 +44,7 @@ router.delete('/:reviewId/delete', isAuthenticated, async ( req, res, next)=>{
 // @route   Delete /reviews/delete
 // @access  User
 
-//missing admin middleware
-
-router.delete('/:reviewId/adminDelete', isAuthenticated, async ( req, res, next)=>{
+router.delete('/:reviewId/adminDelete', isAuthenticated,isAdmin, async ( req, res, next)=>{
     const{reviewId} = req.params;
     try {
         const deletedReview = await Review.findByIdAndDelete(reviewId);

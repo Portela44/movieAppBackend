@@ -18,7 +18,15 @@ const isAuthenticated = jwt({
   getToken: getTokenFromHeaders //token
 });
 
-module.exports = {
-  isAuthenticated
+const isAdmin = (req, res, next) => {
+  if (req.payload.role === 'admin') {
+    next()
+  } else {
+    next(new ErrorResponse('User is not admin', 401));
+    return;
+  }
 }
-
+module.exports = {
+  isAuthenticated,
+  isAdmin
+}

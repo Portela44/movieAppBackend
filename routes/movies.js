@@ -8,7 +8,7 @@ const User = require("../models/User");
 const imdbId = require("imdb-id");
 const metafilm = require("metafilm");
 const colage = require("colage");
-const { isAuthenticated } = require("../middlewares/jwt");
+const { isAuthenticated, isAdmin } = require("../middlewares/jwt");
 const Review = require("../models/Review");
 const ReviewLike = require("../models/ReviewLike");
 
@@ -85,7 +85,7 @@ router.get("/search/:search", async(req, res, next) => {
 // @desc    Displays movie information coming from an API in the console, so it can be copy-pasted into the seed. Search is made by movie title.
 // @route   GET /movies/api-search-by-name
 // @access  Admin
-router.get("/api-search-by-name", async(req, res, next) => {
+router.get("/api-search-by-name", isAuthenticated, isAdmin, async(req, res, next) => {
     const { movieSearchString } = req.body;
     try {
         const movieImdbId = await imdbId(`${movieSearchString}`);
@@ -99,7 +99,7 @@ router.get("/api-search-by-name", async(req, res, next) => {
 // @desc    Displays movie information coming from an API in the console, so it can be copy-pasted into the seed. Search is made by imdbId.
 // @route   GET /movies/api-search-by-imdbId
 // @access  Admin
-router.get("/api-search-by-imdbId", async(req, res, next) => {
+router.get("/api-search-by-imdbId", isAuthenticated, isAdmin, async(req, res, next) => {
     const { movieIdString } = req.body;
     try {
         const movieInfo = await metafilm.id({ imdb_id: `${movieIdString}` });
@@ -112,7 +112,7 @@ router.get("/api-search-by-imdbId", async(req, res, next) => {
 // @desc    Deletes a movie from the database.
 // @route   DELETE /movies/:movieId/delete
 // @access  Admin
-router.delete("/:movieId/delete", async(req, res, next) => {
+router.delete("/:movieId/delete", isAuthenticated, isAdmin, async(req, res, next) => {
     const {movieId} = req.params;
     try {
         const deletedMovie = await Movie.findByIdAndDelete(movieId);
@@ -128,7 +128,7 @@ router.delete("/:movieId/delete", async(req, res, next) => {
 // @desc    Displays de pre-filled form to edit a movie.
 // @route   GET /movies/:movieId/edit
 // @access  Admin
-router.get("/:movieId/edit", async(req, res, next) => {
+router.get("/:movieId/edit", isAuthenticated, isAdmin, async(req, res, next) => {
     const {movieId} = req.params;
     try {
         const movieToEdit = await Movie.findById(movieId)
@@ -141,7 +141,7 @@ router.get("/:movieId/edit", async(req, res, next) => {
 // @desc    Edits a movie.
 // @route   PUT /movies/:movieId/edit
 // @access  Admin
-router.put("/:movieId/edit", async(req, res, next) => {
+router.put("/:movieId/edit", isAuthenticated, isAdmin, async(req, res, next) => {
     const {movieId} = req.params;
     const { imdb_id, name, year, image1, premiere, genre1, genre2, genre3, department1, people1, department2, people2, department3, people3, imdb_rating, imdb_vote, poster1, overview } = req.body;
     const image = { og: image1 }
@@ -160,7 +160,7 @@ router.put("/:movieId/edit", async(req, res, next) => {
 // @desc    Creates a new movie in the database
 // @route   POST /movies/create
 // @access  Admin
-router.post("/create", async(req, res, next) => {
+router.post("/create", isAuthenticated, isAdmin, async(req, res, next) => {
     const { imdb_id, name, year, image1, premiere, genre1, genre2, genre3, department1, people1, department2, people2, department3, people3, imdb_rating, imdb_vote, poster1, overview } = req.body;
     const image = { og: image1 }
     const genres = [genre1, genre2, genre3];
