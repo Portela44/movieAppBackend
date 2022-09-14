@@ -72,12 +72,11 @@ router.get("/voteList", isAuthenticated, async(req, res, next) => {
 // @desc    Searches for a movie in the database based on a user body input.
 // @route   GET /movies/search-movie
 // @access  Public
-router.get("/:search", async(req, res, next) => {
+router.get("/search/:search", async(req, res, next) => {
     const {search}  = req.params;
     try {
         const foundMovies = await Movie.find({name: {$regex: `${search}`, $options: "i"}}).limit(1);
         res.status(202).json({data: foundMovies});
-        console.log(foundMovies);
     } catch (error) {
         next(new ErrorResponse('Something went wrong', 400));
     }
