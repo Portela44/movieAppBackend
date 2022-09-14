@@ -5,24 +5,19 @@ const User = require("../models/User");
 const fileUploader = require('../config/cloudinary.config');
 const ErrorResponse = require('../utils/error');
 
-
-
-
 // @desc    Uploads a picture in claudinary
 // @route   GET /user/upload
 // @access  User
-
 router.post('/upload', fileUploader.single('imageUrl'), (req,res,next) =>{
     if(!req.file){
         next(new ErrorResponse('No file uploaded', 500));
         return;
     }
     res.json({fileUrl: req.file.path});
-})
+});
 // @desc    gets the logged in user
 // @route   GET /user/loggedInUser
 // @access  User
-
 router.get('/loggedInUser', isAuthenticated, async (req,res,next) =>{
     try {
         const user = await User.findById(req.payload._id);
@@ -42,16 +37,13 @@ router.get('/loggedInUser', isAuthenticated, async (req,res,next) =>{
 
 router.put('/edit', isAuthenticated, async (req,res,next) =>{
     const {username, email, biography, imageUrl} = req.body
-
     if(email === '' || username === ''){
         return next(new ErrorResponse('Please fill all the fields.', 400))
     }
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     if (!emailRegex.test(email)) {
          return next(new ErrorResponse('Email is not a valid format', 400))
-  }
-
+    }
   try {
     const user = await User.findById(req.payload._id);
     if(!user){
@@ -65,7 +57,6 @@ router.put('/edit', isAuthenticated, async (req,res,next) =>{
     next(error)
   }
 })
-
 // @desc    Deletes user from the Database
 // @route   DELETE /user/delete
 // @access  User
@@ -78,12 +69,9 @@ router.delete('/delete', isAuthenticated, async (req,res,next) =>{
         next(error);
     }
 });
-
 // @desc    Admin can delete any users
 // @route   DELETE /user/:userId/delete
 // @access  Admin
-
-
 router.delete('/:userId/delete', isAuthenticated, isAdmin, async (req,res,next) =>{
     const {userId} = req.params;
     try {
@@ -93,7 +81,6 @@ router.delete('/:userId/delete', isAuthenticated, isAdmin, async (req,res,next) 
         next(error);
     }
 });
-
 // @desc    Shows userlist to Admin
 // @route   Get /user/userList
 // @access  Admin
@@ -105,7 +92,6 @@ router.get('/userList', isAuthenticated,isAdmin, async (req, res, next) => {
         next(error);
     }
 });
-
 // @desc    Allows the user to update its own filters to get personalized recommendations.
 // @route   PUT /user/preferences
 // @access  User
@@ -113,45 +99,44 @@ router.put("/preferences", isAuthenticated, async(req, res, next) => {
     const userId = req.payload._id;
     const {action, drama, fantasy, comedy, mystery, adventure, war, scifi, romance, history, documentary, crime} = req.body;
     const newPreferences = [];
-    if(req.body.action === "on") {
+    if(action === true) {
         newPreferences.push("1");
     };
-    if(req.body.drama === "on") {
+    if(drama === true) {
         newPreferences.push("12");
     };
-    if(req.body.fantasy === "on") {
+    if(fantasy === true) {
         newPreferences.push("14");
     };
-    if(req.body.comedy === "on") {
+    if(comedy === true) {
         newPreferences.push("8");
     };
-    if(req.body.mystery === "on") {
+    if(mystery === true) {
         newPreferences.push("22");
     };
-    if(req.body.adventure === "on") {
+    if(adventure === true) {
         newPreferences.push("3");
     };
-    if(req.body.war === "on") {
+    if(war === true) {
         newPreferences.push("34");
     };
-    if(req.body.scifi === "on") {
+    if(scifi === true) {
         newPreferences.push("27");
     };
-    if(req.body.romance === "on") {
+    if(romance === true) {
         newPreferences.push("26");
     };
-    if(req.body.history === "on") {
+    if(history === true) {
         newPreferences.push("20");
     };
-    if(req.body.documentary === "on") {
+    if(documentary === true) {
         newPreferences.push("11");
     };
-    if(req.body.crime === "on") {
+    if(crime === true) {
         newPreferences.push("10");
     };
     try {
-        const updatedPrefUser = await User.findByIdAndUpdate(userId, {preferences: newPreferences}, {new: true});
-        req.payload = updatedPrefUser;
+        await User.findOneAndUpdate({userId:userId}, {preferences: newPreferences});
         res.status(202).json({data: newPreferences});
     } catch (error) {
         next(error)
