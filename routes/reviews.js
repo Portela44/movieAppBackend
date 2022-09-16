@@ -19,7 +19,6 @@ router.post('/:movieId/create', isAuthenticated, async (req, res, next)=>{
         next(error);
     }
 });
-
 // @desc    Deletes review in Database
 // @route   Delete /reviews/delete
 // @access  User
@@ -39,11 +38,9 @@ router.delete('/:reviewId/delete', isAuthenticated, async ( req, res, next)=>{
         next(error);
     }
 });
-
 // @desc    Admin can delete any review
 // @route   Delete /reviews/delete
 // @access  User
-
 router.delete('/:reviewId/adminDelete', isAuthenticated,isAdmin, async ( req, res, next)=>{
     const{reviewId} = req.params;
     try {
@@ -54,23 +51,7 @@ router.delete('/:reviewId/adminDelete', isAuthenticated,isAdmin, async ( req, re
         next(error);
     }
 });
-
-// @desc    Shows the movies most recent reviews
-// @route   Get /reviews/recentMovieReviews
-// @access  User
-router.get('/:movieId/recent', isAuthenticated, async (req, res, next) =>{
-    const {movieId} = req.params;
-    try {
-        const reviews = await Review.find({movieId: movieId});
-        const sortedReviews = reviews.sort((a,b)=>(b.createdAt > a.createdAt)? 1 : -1);
-        const twoFirst = sortedReviews.slice(0,2);
-        res.status(200).json({data:twoFirst});
-    } catch (error) {
-        next(error);
-    }
-});
-
-// @desc    Shows the movies recent reviews
+// @desc    Shows the movies reviews
 // @route   Get /reviews/:movieId/allReviews
 // @access  User
 router.get('/:movieId/allReviews', isAuthenticated, async (req, res, next) =>{
@@ -78,29 +59,11 @@ router.get('/:movieId/allReviews', isAuthenticated, async (req, res, next) =>{
     try {
         const reviews = await Review.find({movieId: movieId});
         const sortedReviews = reviews.sort((a,b)=>(b.createdAt > a.createdAt)? 1 : -1);
-        const restOfReviews = sortedReviews.slice(2);
-        res.status(200).json({data:restOfReviews});
+        res.status(200).json({data:sortedReviews});
     } catch (error) {
         next(error);
     }
 });
-
-
-// @desc    Shows the user's most recent reviews.
-// @route   Get /reviews/recentUserReviews
-// @access  User
-router.get('/recentUserReviews', isAuthenticated, async (req, res, next) =>{
-    const userId = req.payload._id
-    try {
-        const reviews = await Review.find({userId: userId});
-        const sortedReviews = reviews.sort((a,b)=>(b.createdAt > a.createdAt)? 1 : -1);
-        const twoFirst = sortedReviews.slice(0,2);
-        res.status(200).json({data:twoFirst});
-    } catch (error) {
-        next(error);
-    }
-});
-
 // @desc    Shows the user's reviews
 // @route   Get /reviews/allReviews
 // @access  User
@@ -109,8 +72,7 @@ router.get('/allUserReviews', isAuthenticated, async (req, res, next) =>{
     try {
         const reviews = await Review.find({userId: userId});
         const sortedReviews = reviews.sort((a,b)=>(b.createdAt > a.createdAt)? 1 : -1);
-        const allReviews = sortedReviews.slice(2);
-        res.status(200).json({data:allReviews});
+        res.status(200).json({data:sortedReviews});
     } catch (error) {
         next(error);
     }
