@@ -34,7 +34,6 @@ router.get('/loggedInUser', isAuthenticated, async (req,res,next) =>{
 // @desc    Updates user from the Database
 // @route   PUT /user/edit
 // @access  User
-
 router.put('/edit', isAuthenticated, async (req,res,next) =>{
     const {username, email, biography, imageUrl} = req.body
     if(email === '' || username === ''){
@@ -90,56 +89,6 @@ router.get('/userList', isAuthenticated,isAdmin, async (req, res, next) => {
         res.status(200).json({ data: users });
     } catch (error) {
         next(error);
-    }
-});
-// @desc    Allows the user to update its own filters to get personalized recommendations.
-// @route   PUT /user/preferences
-// @access  User
-router.put("/preferences", isAuthenticated, async(req, res, next) => {
-    const userId = req.payload._id;
-    const {action, drama, fantasy, comedy, mystery, adventure, war, scifi, romance, history, documentary, crime} = req.body;
-    const newPreferences = [];
-    if(action === true) {
-        newPreferences.push("1");
-    };
-    if(drama === true) {
-        newPreferences.push("12");
-    };
-    if(fantasy === true) {
-        newPreferences.push("14");
-    };
-    if(comedy === true) {
-        newPreferences.push("8");
-    };
-    if(mystery === true) {
-        newPreferences.push("22");
-    };
-    if(adventure === true) {
-        newPreferences.push("3");
-    };
-    if(war === true) {
-        newPreferences.push("34");
-    };
-    if(scifi === true) {
-        newPreferences.push("27");
-    };
-    if(romance === true) {
-        newPreferences.push("26");
-    };
-    if(history === true) {
-        newPreferences.push("20");
-    };
-    if(documentary === true) {
-        newPreferences.push("11");
-    };
-    if(crime === true) {
-        newPreferences.push("10");
-    };
-    try {
-        await User.findOneAndUpdate({userId:userId}, {preferences: newPreferences});
-        res.status(202).json({data: newPreferences});
-    } catch (error) {
-        next(error)
     }
 });
 
