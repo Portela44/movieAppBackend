@@ -16,9 +16,10 @@ const ReviewLike = require("../models/ReviewLike");
 // @route   GET /movies/next
 // @access  User
 router.get("/next", isAuthenticated, async(req, res, next) => {
-    const user = req.payload;
+    const userId = req.payload._id;
     let votedMovieIdArr = [];
     try {
+        const user = await User.findById(userId);
         let votes = await Vote.find({userId: user._id});
         votes.forEach(vote => {
             votedMovieIdArr.push(String(vote.movieId));
