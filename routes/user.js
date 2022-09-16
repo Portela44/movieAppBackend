@@ -29,8 +29,7 @@ router.get('/loggedInUser', isAuthenticated, async (req,res,next) =>{
     } catch (error) {
         next(error)
     }
-})
-
+});
 // @desc    Updates user from the Database
 // @route   PUT /user/edit
 // @access  User
@@ -97,7 +96,6 @@ router.get('/userList', isAuthenticated,isAdmin, async (req, res, next) => {
 router.put("/preferences", isAuthenticated, async(req, res, next) => {
     const userId = req.payload._id;
     const newPreferences = req.body;
-    console.log(newPreferences);
     try {
         await User.findOneAndUpdate({userId:userId}, {preferences: newPreferences});
         res.status(202).json({data: newPreferences});
