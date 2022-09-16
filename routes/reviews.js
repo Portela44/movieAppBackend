@@ -70,7 +70,7 @@ router.get('/:movieId/allReviews', isAuthenticated, async (req, res, next) =>{
 router.get('/allUserReviews', isAuthenticated, async (req, res, next) =>{
     const userId = req.payload._id
     try {
-        const reviews = await Review.find({userId: userId});
+        const reviews = await Review.find({userId: userId}).populate("movieId");
         const sortedReviews = reviews.sort((a,b)=>(b.createdAt > a.createdAt)? 1 : -1);
         res.status(200).json({data:sortedReviews});
     } catch (error) {
