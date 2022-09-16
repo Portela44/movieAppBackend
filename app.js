@@ -15,7 +15,6 @@ const reviewsRouter = require('./routes/reviews');
 const votesRouter = require('./routes/votes');
 const watchListRouter = require('./routes/watchList');
 const reviewLikeRouter = require('./routes/reviewLike');
-const preferencesRouter = require('./routes/preferences')
 
 const app = express();
 
@@ -41,8 +40,7 @@ app.use('/api/v1/movies', moviesRouter);
 app.use('/api/v1/reviews', reviewsRouter)
 app.use('/api/v1/votes', votesRouter);
 app.use('/api/v1/watchList', watchListRouter);
-app.use('/api/v1/reviewLike', reviewLikeRouter)
-app.use('/api/v1/preferences', preferencesRouter);
+app.use('/api/v1/reviewLike', reviewLikeRouter);
 app.use(errorHandler);
 
 // catch 404 and forward to error handler

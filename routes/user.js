@@ -91,5 +91,19 @@ router.get('/userList', isAuthenticated,isAdmin, async (req, res, next) => {
         next(error);
     }
 });
+// @desc    Allows the user to update its own filters to get personalized recommendations.
+// @route   PUT /user/preferences
+// @access  User
+router.put("/preferences", isAuthenticated, async(req, res, next) => {
+    const userId = req.payload._id;
+    const newPreferences = req.body;
+    console.log(newPreferences);
+    try {
+        await User.findOneAndUpdate({userId:userId}, {preferences: newPreferences});
+        res.status(202).json({data: newPreferences});
+    } catch (error) {
+        next(error)
+    }
+});
 
 module.exports = router;

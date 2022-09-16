@@ -24,6 +24,10 @@ const userSchema = new Schema({
     type: String,
     default: "https://www.nicepng.com/png/full/933-9332131_profile-picture-default-png.png"
   },
+  preferences: {
+    type: [String],
+    default: []
+  },
   biography:{
     type: String,
     required: true,
