@@ -25,21 +25,8 @@ const userSchema = new Schema({
     default: "https://www.nicepng.com/png/full/933-9332131_profile-picture-default-png.png"
   },
   preferences: {
-    type: {Boolean},
-    default: {
-      action: false,
-      drama: false,
-      fantasy: false,
-      comedy: false,
-      mystery: false,
-      adventure: false,
-      war: false,
-      scify: false,
-      romance: false,
-      history: false,
-      documentary: false,
-      crime: false,
-    }
+    type: [String],
+    default: []
   },
   biography:{
     type: String,

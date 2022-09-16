@@ -40,7 +40,7 @@ app.use('/api/v1/movies', moviesRouter);
 app.use('/api/v1/reviews', reviewsRouter)
 app.use('/api/v1/votes', votesRouter);
 app.use('/api/v1/watchList', watchListRouter);
-app.use('/api/v1/reviewLike', reviewLikeRouter)
+app.use('/api/v1/reviewLike', reviewLikeRouter);
 app.use(errorHandler);
 
 // catch 404 and forward to error handler
