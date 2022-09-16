@@ -100,7 +100,7 @@ router.post('/login', async (req, res, next) => {
 router.get('/me', isAuthenticated, (req, res, next) => {
   // If JWT token is valid the payload gets decoded by the
   // isAuthenticated middleware and made available on `req.payload`
-  console.log('Whose token is on the request:', req.payload);
+  // console.log('Whose token is on the request:', req.payload);
   // Send back the object with user data
   // previously set as the token payload
   res.status(200).json(req.payload);
