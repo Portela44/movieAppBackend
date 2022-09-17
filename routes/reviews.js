@@ -57,7 +57,7 @@ router.delete('/:reviewId/adminDelete', isAuthenticated,isAdmin, async ( req, re
 router.get('/:movieId/allReviews', isAuthenticated, async (req, res, next) =>{
     const {movieId} = req.params;
     try {
-        const reviews = await Review.find({movieId: movieId});
+        const reviews = await Review.find({movieId: movieId}).populate('userId');
         const sortedReviews = reviews.sort((a,b)=>(b.createdAt > a.createdAt)? 1 : -1);
         res.status(200).json({data:sortedReviews});
     } catch (error) {
