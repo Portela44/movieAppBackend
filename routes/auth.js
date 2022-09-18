@@ -75,6 +75,7 @@ router.post('/login', async (req, res, next) => {
           email: userInDB.email,
           role: userInDB.role,
           imageUrl: userInDB.imageUrl,
+          biography: userInDB.biography,
           _id: userInDB._id
         }
         // Use the jwt middleware to create de token
