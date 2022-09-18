@@ -37,6 +37,20 @@ router.delete('/:movieId/remove', isAuthenticated, async (req, res, next)=>{
     }
 });
 
+// @desc    Removes a movie from whatchlist
+// @route   DELETE /watchList/:movieId/remove
+// @access  User
+router.get('/:movieId/exists', isAuthenticated, async (req, res, next)=>{
+    const userId = req.payload._id;
+    const {movieId} = req.params;
+    try {
+        const isInWatchList = await WatchList.find({userId:userId, movieId});
+        isInWatchList.length > 0 ? res.status(202).json({data: true}) : res.status(202).json({data: false});
+    } catch (error) {
+        next(error);
+    }
+});
+
 // @desc    Show the user the movies in watchlist
 // @route   GET /watchList
 // @access  User
