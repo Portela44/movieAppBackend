@@ -7,7 +7,6 @@ const User = require("../models/User");
 // IMDB API requirements
 const imdbId = require("imdb-id");
 const metafilm = require("metafilm");
-const colage = require("colage");
 const { isAuthenticated, isAdmin } = require("../middlewares/jwt");
 const Review = require("../models/Review");
 const ReviewLike = require("../models/ReviewLike");
@@ -43,7 +42,6 @@ router.get("/next", isAuthenticated, async(req, res, next) => {
         next(error);
     }
 });
-
 // @desc    Shows all movies ignored by the user
 // @route   GET /movies/ignored
 // @access  User
@@ -56,7 +54,6 @@ router.get("/ignored", isAuthenticated, async (req, res, next) => {
         next(error);
     }
 });
-
 // @desc    Shows its own vote list to each user
 // @route   GET /movies/voteList
 // @access  User
@@ -69,7 +66,6 @@ router.get("/voteList", isAuthenticated, async(req, res, next) => {
         next(error);
     }
 });
-
 // @desc    Searches for a movie in the database based on a user body input.
 // @route   GET /movies/search-movie
 // @access  Public
@@ -82,11 +78,10 @@ router.get("/search/:search", async(req, res, next) => {
         next(new ErrorResponse('Something went wrong', 400));
     }
 });
-
 // @desc    Displays movie information coming from an API in the console, so it can be copy-pasted into the seed. Search is made by movie title.
 // @route   GET /movies/api-search-by-name
 // @access  Admin
-router.get("/api-search-by-name/:search", isAuthenticated, async(req, res, next) => {
+router.get("/api-search-by-name/:search", async(req, res, next) => {
     const { search } = req.params;
     try {
         const movieImdbId = await imdbId(`${search}`);
@@ -96,11 +91,10 @@ router.get("/api-search-by-name/:search", isAuthenticated, async(req, res, next)
         next(error);
     }
 });
-
 // @desc    Displays movie information coming from an API in the console, so it can be copy-pasted into the seed. Search is made by imdbId.
 // @route   GET /movies/api-search-by-imdbId
 // @access  Admin
-router.get("/api-search-by-imdbId/:search", isAuthenticated, async(req, res, next) => {
+router.get("/api-search-by-imdbId/:search", async(req, res, next) => {
     const { search } = req.params;
     try {
         const movieInfo = await metafilm.id({ imdb_id: `${search}` });
@@ -109,7 +103,6 @@ router.get("/api-search-by-imdbId/:search", isAuthenticated, async(req, res, nex
         next(error);
     }
 });
-
 // @desc    Deletes a movie from the database.
 // @route   DELETE /movies/:movieId/delete
 // @access  Admin
@@ -125,7 +118,6 @@ router.delete("/:movieId/delete", isAuthenticated, isAdmin, async(req, res, next
         next(error);
     }
 });
-
 // @desc    Displays de pre-filled form to edit a movie.
 // @route   GET /movies/:movieId/edit
 // @access  Admin
@@ -138,7 +130,6 @@ router.get("/:movieId/edit", isAuthenticated, isAdmin, async(req, res, next) => 
         next(error);
     }
 });
-
 // @desc    Edits a movie.
 // @route   PUT /movies/:movieId/edit
 // @access  Admin
@@ -157,7 +148,6 @@ router.put("/:movieId/edit", isAuthenticated, isAdmin, async(req, res, next) => 
         next(error);
     }
 });
-
 // @desc    Creates a new movie in the database
 // @route   POST /movies/create
 // @access  Admin
@@ -189,7 +179,6 @@ router.get("/voteList/byYear", isAuthenticated, async(req, res, next) => {
         next(error);
     }
 });
-
 // @desc    Shows its own vote list to each user, sorted by popularity (premiere)
 // @route   GET /movies/byRating
 // @access  User
@@ -203,7 +192,6 @@ router.get("/voteList/byRating", isAuthenticated, async(req, res, next) => {
         next(error);
     }
 });
-
 // @desc    Shows its own vote list to each user, sorted by popularity (premiere)
 // @route   GET /movies/byPopularity
 // @access  User
@@ -217,7 +205,6 @@ router.get("/voteList/byPopularity", isAuthenticated, async(req, res, next) => {
         next(error);
     }
 });
-
 // @desc    Displays a movie by Id which can be consulted or voted.
 // @route   GET /:movieId
 // @access  User
