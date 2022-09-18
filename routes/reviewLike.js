@@ -8,7 +8,7 @@ const ReviewLike = require('../models/ReviewLike');
 // @desc    User likes a review.
 // @route   POST reviewLike/:reviewId/add
 // @access  User
-router.post("/add/:reviewId", isAuthenticated, async(req, res, next) => {
+router.post("/:reviewId/add", isAuthenticated, async(req, res, next) => {
     const userId = req.payload._id;
     const {reviewId} = req.params;
     try {
@@ -23,14 +23,11 @@ router.post("/add/:reviewId", isAuthenticated, async(req, res, next) => {
 // @desc    User removes a like from a review.
 // @route   DELETE reviewLike/:reviewId/remove
 // @access  User
-router.delete("/remove/:reviewId", isAuthenticated, async(req, res, next) => {
+router.delete("/:reviewId/remove", isAuthenticated, async(req, res, next) => {
     const userId = req.payload._id;
-    console.log(userId)
     const {reviewId} = req.params;
-    console.log(reviewId)
     try {
-        const removedLike = await ReviewLike.findOneAndDelete({userId:userId, reviewId: reviewId})
-        console.log(removedLike);
+        const removedLike = await ReviewLike.findOneAndDelete({userId: userId, reviewId});
         res.status(202).json({data: removedLike})
     } catch (error) {
         next(error);
@@ -60,7 +57,7 @@ router.get("/isLiked/:reviewId", isAuthenticated, async(req, res, next) => {
     try {
         const reviewLikes = await ReviewLike.find({reviewId:reviewId, userId: userId});
         let isLiked;
-        reviewLikes.length > 0 ? isLiked = true: isLiked = false;
+        reviewLikes ? isLiked = true: isLiked = false;
         res.status(202).json({data: isLiked})
     } catch (error) {
         next(error);
