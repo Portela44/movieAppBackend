@@ -57,7 +57,7 @@ router.get("/isLiked/:reviewId", isAuthenticated, async(req, res, next) => {
     try {
         const reviewLikes = await ReviewLike.find({reviewId:reviewId, userId: userId});
         let isLiked;
-        reviewLikes ? isLiked = true: isLiked = false;
+        reviewLikes.length > 0 ? isLiked = true: isLiked = false;
         res.status(202).json({data: isLiked})
     } catch (error) {
         next(error);
