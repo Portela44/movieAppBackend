@@ -19,7 +19,6 @@ router.post("/:reviewId/add", isAuthenticated, async(req, res, next) => {
         next(error);
     }
 });
-
 // @desc    User removes a like from a review.
 // @route   DELETE reviewLike/:reviewId/remove
 // @access  User
@@ -33,7 +32,6 @@ router.delete("/:reviewId/remove", isAuthenticated, async(req, res, next) => {
         next(error);
     }
 });
-
 // @desc    User can see the number of likes
 // @route   GET reviewLike/:reviewId/likeAmmount
 // @access  User
@@ -47,7 +45,6 @@ router.get("/:reviewId", isAuthenticated, async(req, res, next) => {
         next(error);
     }
 });
-
 // @desc    Review has been liked by user
 // @route   GET reviewLike/isliked/:reviewId
 // @access  User
