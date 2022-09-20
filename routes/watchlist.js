@@ -19,10 +19,9 @@ router.post('/:movieId/add', isAuthenticated, async (req, res, next)=>{
             return next(new ErrorResponse('This movie is already in your watchlist', 400))
         }
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
-
 // @desc    Removes a movie from whatchlist
 // @route   DELETE /watchList/:movieId/remove
 // @access  User
@@ -33,10 +32,9 @@ router.delete('/:movieId/remove', isAuthenticated, async (req, res, next)=>{
         const removeMovie = await WatchList.findOneAndDelete({userId:userId, movieId});
         res.status(202).json({data: removeMovie});
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
-
 // @desc    Removes a movie from whatchlist
 // @route   DELETE /watchList/:movieId/remove
 // @access  User
@@ -47,10 +45,9 @@ router.get('/:movieId/exists', isAuthenticated, async (req, res, next)=>{
         const isInWatchList = await WatchList.find({userId:userId, movieId});
         isInWatchList.length > 0 ? res.status(202).json({data: true}) : res.status(202).json({data: false});
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
-
 // @desc    Show the user the movies in watchlist
 // @route   GET /watchList
 // @access  User
@@ -60,7 +57,7 @@ router.get('/', isAuthenticated, async (req, res, next)=>{
         const moviesFromDb = await WatchList.find({userId: userId}).populate("movieId");
         res.status(200).json({data: moviesFromDb});
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
 

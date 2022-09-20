@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const ErrorResponse = require('../utils/error');
 const {isAuthenticated} = require('../middlewares/jwt')
-const Review = require("../models/Review");
 const ReviewLike = require('../models/ReviewLike');
+const ErrorResponse = require('../utils/error');
 
 // @desc    User likes a review.
 // @route   POST reviewLike/:reviewId/add
@@ -16,7 +15,7 @@ router.post("/:reviewId/add", isAuthenticated, async(req, res, next) => {
         const addedLike = await ReviewLike.create({userId: userId, reviewId: reviewId});
         res.status(201).json({data: addedLike});
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
 // @desc    User removes a like from a review.
@@ -29,7 +28,7 @@ router.delete("/:reviewId/remove", isAuthenticated, async(req, res, next) => {
         const removedLike = await ReviewLike.findOneAndDelete({userId: userId, reviewId});
         res.status(202).json({data: removedLike})
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
 // @desc    User can see the number of likes
@@ -42,7 +41,7 @@ router.get("/:reviewId", isAuthenticated, async(req, res, next) => {
         const numberOfLikes = reviewLikes.length
         res.status(202).json({data: numberOfLikes})
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
 // @desc    Review has been liked by user
@@ -57,7 +56,7 @@ router.get("/isLiked/:reviewId", isAuthenticated, async(req, res, next) => {
         reviewLikes.length > 0 ? isLiked = true : isLiked = false
         res.status(202).json({data: isLiked})
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
 

@@ -165,7 +165,6 @@ router.post("/create", isAuthenticated, isAdmin, async(req, res, next) => {
         next(error);
     }
 });
-
 // @desc    Shows its own vote list to each user, sorted by release date (premiere)
 // @route   GET /movies/byDate
 // @access  User

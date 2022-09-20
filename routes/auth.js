@@ -5,7 +5,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const { isAuthenticated } = require('../middlewares/jwt');
 const saltRounds = 10;
-const fileUploader = require('../config/cloudinary.config')
 
 // @desc    SIGN UP new user
 // @route   POST /api/v1/auth/signup
@@ -16,7 +15,6 @@ router.post('/signup',  async (req, res, next) => {
   if (email === "" || password === "" || username === "") {
     return next(new ErrorResponse('Please fill all the fields to register', 400))
   }
-  
   // Use regex to validate the email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   if (!emailRegex.test(email)) {
@@ -50,7 +48,6 @@ router.post('/signup',  async (req, res, next) => {
     next(error);
   }
 });
-
 // @desc    LOG IN user
 // @route   POST /api/v1/auth/login
 // @access  Public
@@ -94,7 +91,6 @@ router.post('/login', async (req, res, next) => {
     next(error)
   }
 });
-
 // @desc    GET logged in user
 // @route   GET /api/v1/auth/me
 // @access  Private

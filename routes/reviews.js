@@ -16,7 +16,7 @@ router.post('/:movieId/create', isAuthenticated, async (req, res, next)=>{
         const newReview = await Review.create({titleReview, review, userId, movieId});
         res.status(201).json({data: newReview});
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
 // @desc    Deletes review in Database
@@ -35,7 +35,7 @@ router.delete('/:reviewId/delete', isAuthenticated, async ( req, res, next)=>{
         }
         await ReviewLike.deleteMany({reviewId: reviewId});
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
 // @desc    Admin can delete any review
@@ -48,7 +48,7 @@ router.delete('/:reviewId/adminDelete', isAuthenticated,isAdmin, async ( req, re
         await ReviewLike.deleteMany({reviewId: reviewId});
         res.status(202).json({data: deletedReview});      
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
 // @desc    Shows the movies reviews
@@ -61,7 +61,7 @@ router.get('/:movieId/allReviews', isAuthenticated, async (req, res, next) =>{
         const sortedReviews = reviews.sort((a,b)=>(b.createdAt > a.createdAt)? 1 : -1);
         res.status(200).json({data:sortedReviews});
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
 // @desc    Shows the user's reviews
@@ -74,7 +74,7 @@ router.get('/allUserReviews', isAuthenticated, async (req, res, next) =>{
         const sortedReviews = reviews.sort((a,b)=>(b.createdAt > a.createdAt)? 1 : -1);
         res.status(200).json({data:sortedReviews});
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
 

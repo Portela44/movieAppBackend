@@ -27,7 +27,7 @@ router.get('/loggedInUser', isAuthenticated, async (req,res,next) =>{
         }
         res.status(200).json({data: user})
     } catch (error) {
-        next(error)
+        error = new ErrorResponse(message, 400);
     }
 });
 // @desc    Updates user from the Database
@@ -52,7 +52,7 @@ router.put('/edit', isAuthenticated, async (req,res,next) =>{
         res.status(200).json({data: updatedUser})
     }
   } catch (error) {
-    next(error)
+    error = new ErrorResponse(message, 400);
   }
 })
 // @desc    Deletes user from the Database
@@ -64,7 +64,7 @@ router.delete('/delete', isAuthenticated, async (req,res,next) =>{
         const deletedUser = await User.findByIdAndDelete(userId);
         res.status(202).json({data: deletedUser});
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
 // @desc    Admin can delete any users
@@ -76,7 +76,7 @@ router.delete('/:userId/delete', isAuthenticated, isAdmin, async (req,res,next) 
         const deletedUser = await User.findByIdAndDelete(userId);
         res.status(202).json({data: deletedUser});
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
 // @desc    Shows userlist to Admin
@@ -87,7 +87,7 @@ router.get('/userList', isAuthenticated,isAdmin, async (req, res, next) => {
         const users = await User.find({});
         res.status(200).json({ data: users });
     } catch (error) {
-        next(error);
+        error = new ErrorResponse(message, 400);
     }
 });
 // @desc    Allows the user to update its own filters to get personalized recommendations.
@@ -100,7 +100,7 @@ router.put("/preferences", isAuthenticated, async(req, res, next) => {
         await User.findOneAndUpdate({userId:userId}, {preferences: newPreferences});
         res.status(202).json({data: newPreferences});
     } catch (error) {
-        next(error)
+        error = new ErrorResponse(message, 400);
     }
 });
 
