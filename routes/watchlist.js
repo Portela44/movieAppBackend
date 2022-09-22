@@ -1,12 +1,12 @@
-const express = require("express");
-const router = express.Router();
-const WatchList = require("../models/WatchList");
-const ErrorResponse = require('../utils/error');
-const {isAuthenticated} = require('../middlewares/jwt');
+// const express = require("express");
+// const router = express.Router();
+// const WatchList = require("../models/WatchList");
+// const ErrorResponse = require('../utils/error');
+// const {isAuthenticated} = require('../middlewares/jwt');
 
-// @desc    Posts add movie to watchlist
-// @route   POST /watchList/:movieId/addToWatchlist
-// @access  User
+// // @desc    Posts add movie to watchlist
+// // @route   POST /watchList/:movieId/addToWatchlist
+// // @access  User
 // router.post('/:movieId/add', isAuthenticated, async (req, res, next)=>{
 //     const userId = req.payload._id;
 //     const {movieId} = req.params;
@@ -22,43 +22,43 @@ const {isAuthenticated} = require('../middlewares/jwt');
 //         error = new ErrorResponse(message, 400);
 //     }
 // });
-// @desc    Removes a movie from whatchlist
-// @route   DELETE /watchList/:movieId/remove
-// @access  User
-router.delete('/:movieId/remove', isAuthenticated, async (req, res, next)=>{
-    const userId = req.payload._id;
-    const {movieId} = req.params;
-    try {
-        const removeMovie = await WatchList.findOneAndDelete({userId:userId, movieId});
-        res.status(202).json({data: removeMovie});
-    } catch (error) {
-        error = new ErrorResponse(message, 400);
-    }
-});
-// @desc    Removes a movie from whatchlist
-// @route   DELETE /watchList/:movieId/remove
-// @access  User
-router.get('/:movieId/exists', isAuthenticated, async (req, res, next)=>{
-    const userId = req.payload._id;
-    const {movieId} = req.params;
-    try {
-        const isInWatchList = await WatchList.find({userId:userId, movieId});
-        isInWatchList.length > 0 ? res.status(202).json({data: true}) : res.status(202).json({data: false});
-    } catch (error) {
-        error = new ErrorResponse(message, 400);
-    }
-});
-// @desc    Show the user the movies in watchlist
-// @route   GET /watchList
-// @access  User
-router.get('/', isAuthenticated, async (req, res, next)=>{
-    const userId = req.payload._id;
-    try {
-        const moviesFromDb = await WatchList.find({userId: userId}).populate("movieId");
-        res.status(200).json({data: moviesFromDb});
-    } catch (error) {
-        error = new ErrorResponse(message, 400);
-    }
-});
+// // @desc    Removes a movie from whatchlist
+// // @route   DELETE /watchList/:movieId/remove
+// // @access  User
+// router.delete('/:movieId/remove', isAuthenticated, async (req, res, next)=>{
+//     const userId = req.payload._id;
+//     const {movieId} = req.params;
+//     try {
+//         const removeMovie = await WatchList.findOneAndDelete({userId:userId, movieId});
+//         res.status(202).json({data: removeMovie});
+//     } catch (error) {
+//         error = new ErrorResponse(message, 400);
+//     }
+// });
+// // @desc    Removes a movie from whatchlist
+// // @route   DELETE /watchList/:movieId/remove
+// // @access  User
+// router.get('/:movieId/exists', isAuthenticated, async (req, res, next)=>{
+//     const userId = req.payload._id;
+//     const {movieId} = req.params;
+//     try {
+//         const isInWatchList = await WatchList.find({userId:userId, movieId});
+//         isInWatchList.length > 0 ? res.status(202).json({data: true}) : res.status(202).json({data: false});
+//     } catch (error) {
+//         error = new ErrorResponse(message, 400);
+//     }
+// });
+// // @desc    Show the user the movies in watchlist
+// // @route   GET /watchList
+// // @access  User
+// router.get('/', isAuthenticated, async (req, res, next)=>{
+//     const userId = req.payload._id;
+//     try {
+//         const moviesFromDb = await WatchList.find({userId: userId}).populate("movieId");
+//         res.status(200).json({data: moviesFromDb});
+//     } catch (error) {
+//         error = new ErrorResponse(message, 400);
+//     }
+// });
 
-module.exports = router;
+// module.exports = router;
