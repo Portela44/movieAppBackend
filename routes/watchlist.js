@@ -51,14 +51,14 @@ router.get('/:movieId/exists', isAuthenticated, async (req, res, next)=>{
 // @desc    Show the user the movies in watchlist
 // @route   GET /watchList
 // @access  User
-router.get('/', isAuthenticated, async (req, res, next)=>{
-    const userId = req.payload._id;
-    try {
-        const moviesFromDb = await WatchList.find({userId: userId}).populate("movieId");
-        res.status(200).json({data: moviesFromDb});
-    } catch (error) {
-        error = new ErrorResponse(message, 400);
-    }
-});
+// router.get('/', isAuthenticated, async (req, res, next)=>{
+//     const userId = req.payload._id;
+//     try {
+//         const moviesFromDb = await WatchList.find({userId: userId}).populate("movieId");
+//         res.status(200).json({data: moviesFromDb});
+//     } catch (error) {
+//         error = new ErrorResponse(message, 400);
+//     }
+// });
 
 module.exports = router;
