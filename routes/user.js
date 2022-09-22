@@ -52,7 +52,7 @@ router.put('/edit', isAuthenticated, async (req,res,next) =>{
         res.status(200).json({data: updatedUser})
     }
   } catch (error) {
-    error = new ErrorResponse(message, 400);
+    error = new ErrorResponse("", 400);
   }
 })
 // @desc    Deletes user from the Database
@@ -64,7 +64,7 @@ router.delete('/delete', isAuthenticated, async (req,res,next) =>{
         const deletedUser = await User.findByIdAndDelete(userId);
         res.status(202).json({data: deletedUser});
     } catch (error) {
-        error = new ErrorResponse(message, 400);
+        error = new ErrorResponse("", 400);
     }
 });
 // @desc    Admin can delete any users
@@ -76,7 +76,7 @@ router.delete('/:userId/delete', isAuthenticated, isAdmin, async (req,res,next) 
         const deletedUser = await User.findByIdAndDelete(userId);
         res.status(202).json({data: deletedUser});
     } catch (error) {
-        error = new ErrorResponse(message, 400);
+        error = new ErrorResponse("", 400);
     }
 });
 // @desc    Shows userlist to Admin
@@ -87,7 +87,7 @@ router.get('/userList', isAuthenticated,isAdmin, async (req, res, next) => {
         const users = await User.find({});
         res.status(200).json({ data: users });
     } catch (error) {
-        error = new ErrorResponse(message, 400);
+        error = new ErrorResponse("", 400);
     }
 });
 // @desc    Allows the user to update its own filters to get personalized recommendations.
@@ -95,12 +95,12 @@ router.get('/userList', isAuthenticated,isAdmin, async (req, res, next) => {
 // @access  User
 router.put("/preferences", isAuthenticated, async(req, res, next) => {
     const userId = req.payload._id;
-    const newPreferences = req.body;
+    const {newPreferences} = req.body;
     try {
-        await User.findOneAndUpdate({userId:userId}, {preferences: newPreferences});
+        await User.findByIdAndUpdate(userId, {preferences: newPreferences});
         res.status(202).json({data: newPreferences});
     } catch (error) {
-        error = new ErrorResponse(message, 400);
+        error = new ErrorResponse("An error have occured", 400);
     }
 });
 
