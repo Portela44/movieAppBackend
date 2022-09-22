@@ -43,9 +43,7 @@ router.get('/:movieId/exists', isAuthenticated, async (req, res, next)=>{
     const {movieId} = req.params;
     try {
         const isInWatchList = await WatchList.find({userId:userId, movieId});
-        let response;
-        isInWatchList.length > 0 ? response = true : response = false;
-        res.status(202).json({data: response}); 
+        isInWatchList.length > 0 ? res.status(202).json({data: true}) : res.status(202).json({data: false});
     } catch (error) {
         error = new ErrorResponse(message, 400);
     }

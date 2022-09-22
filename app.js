@@ -13,7 +13,7 @@ const userRouter = require('./routes/user');
 const moviesRouter = require('./routes/movies');
 const reviewsRouter = require('./routes/reviews');
 const votesRouter = require('./routes/votes');
-const watchListRouter = require('./routes/watchList');
+const watchListRouter = require('./routes/watchlist');
 const reviewLikeRouter = require('./routes/reviewLike');
 
 const app = express();
