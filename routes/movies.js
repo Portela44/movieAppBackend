@@ -17,27 +17,27 @@ const ReviewLike = require("../models/ReviewLike");
 router.get("/next", isAuthenticated, async(req, res, next) => {
     const userId = req.payload._id;
     let votedMovieIdArr = [];
+    const interest = (userPreferences, movieGenres) => {
+        return userPreferences.some(genre => movieGenres.includes(genre));
+    };
     try {
         const user = await User.findById(userId);
         let votes = await Vote.find({userId: user._id});
         votes.forEach(vote => {
             votedMovieIdArr.push(String(vote.movieId));
         });
-        let nextMovie = await Movie.find()
-        // let nextMovie = await Movie.aggregate([{$sample: {size: 1}}]);
+        let nextMovie = await Movie.aggregate([{$sample: {size: 1}}]);
         let nextMovie0 = nextMovie[0];
         while(votedMovieIdArr.includes(String(nextMovie0._id))) {
             nextMovie = await Movie.aggregate([{$sample: {size: 1}}]);
             nextMovie0 = nextMovie[0];
-        };
-        for(let i = 0; i < nextMovie0.genres.length; i++) {
-            if(user.preferences.length > 0) {
-                while(!user.preferences.includes(nextMovie0.genres[i])) {
+            if(nextMovie0.genres.length > 0 && user.preferences.length > 0) {
+                while(!interest(user.preferences, nextMovie0.genres)) {
                     nextMovie = await Movie.aggregate([{$sample: {size: 1}}]);
                     nextMovie0 = nextMovie[0];
-                }
+                }    
             }
-        }
+        };
         res.status(202).json({data: nextMovie0});
     } catch (error) {
         next(error);
