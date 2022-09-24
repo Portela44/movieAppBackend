@@ -38,6 +38,7 @@ router.get("/next", isAuthenticated, async(req, res, next) => {
                 }    
             }
         };
+        console.log(user.preferences);
         res.status(202).json({data: nextMovie0});
     } catch (error) {
         next(error);
