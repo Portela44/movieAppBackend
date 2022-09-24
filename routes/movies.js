@@ -23,7 +23,8 @@ router.get("/next", isAuthenticated, async(req, res, next) => {
         votes.forEach(vote => {
             votedMovieIdArr.push(String(vote.movieId));
         });
-        let nextMovie = await Movie.aggregate([{$sample: {size: 1}}]);
+        let nextMovie = await Movie.find()
+        // let nextMovie = await Movie.aggregate([{$sample: {size: 1}}]);
         let nextMovie0 = nextMovie[0];
         while(votedMovieIdArr.includes(String(nextMovie0._id))) {
             nextMovie = await Movie.aggregate([{$sample: {size: 1}}]);
