@@ -332,5 +332,5 @@ WatchList items saved in the database have the following properties:
 - [Presentation slides](https://docs.google.com/presentation/d/18FTmbfKPk4-kvmUaDFEL434RDo-BS3r-xkGEDVOJ4cY/edit#slide=id.g15922dfdf9b_0_17)
 - [Frontend repository](https://github.com/Paumesonero/movieAppFrontend)
 - [Frontend deploy](https://moviefetchapp.netlify.app/)
-- [Deployed REST API]()
+- [Deployed REST API](https://idliketowatch.herokuapp.com/)
 
