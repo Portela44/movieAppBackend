@@ -258,6 +258,14 @@ Reviews in the database have the following properties:
 | GET search movie in APP (name)   | GET     | /api/v1/movies/search/:search    |     | Public |
 | GET search movie in API (name)   | GET     | /api/v1/movies/api-search-by-name/:search    |     | Admin |
 | GET search movie in API (imdbId)   | GET     | /api/v1/movies/api-search-by-imdbId/:search    |     | Admin |
+| DELETE movie   | DELETE     | /api/v1/movies/:movieId/delete    |     | Admin |
+| GET edit movie form   | GET     | /api/v1/movies/:movieId/edit    |     | Admin |
+| PUT edit movie   | PUT     | /api/v1/movies/:movieId/edit    |{ imdb_id, name, year, image1, premiere, genre1, genre2, genre3, department1, people1, department2, people2, department3, people3, imdb_rating, imdb_vote, poster1, overview } | Admin |
+| POST create movie   | POST     | /api/v1/movies/create    |{ imdb_id, name, year, image1, premiere, genre1, genre2, genre3, department1, people1, department2, people2, department3, people3, imdb_rating, imdb_vote, poster1, overview } | Admin |
+| GET voteList by year  | GET     | /api/v1/movies/voteList/byYear    |     | User |
+| GET voteList by Rating  | GET     | /api/v1/movies/voteList/byRating    |     | User |
+| GET voteList by Popularity  | GET     | /api/v1/movies/voteList/byPopularity    |     | User |
+| GET movie page  | GET     | /api/v1/movies/:movieId    |     | User |
 
 ---
 
