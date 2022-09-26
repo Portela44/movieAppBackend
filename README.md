@@ -243,6 +243,40 @@ Reviews in the database have the following properties:
 }
 ```
 
+### ReviewLike
+
+Likes in reviews saved in the database have the following properties:
+
+```js
+{
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: "User"
+        },
+        reviewId:{
+            type: Schema.Types.ObjectId,
+            ref:"Review"
+        }
+}
+```
+
+### WatchList
+
+WatchList items saved in the database have the following properties:
+
+```js
+{
+        movieId: {
+            type: Schema.Types.ObjectId,
+            ref: "Movie",
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+        }
+}
+```
+
 ---
 
 ## API endpoints and usage 
@@ -275,7 +309,21 @@ Reviews in the database have the following properties:
 | DELETE any review  | DELETE   | /api/v1/reviews/:movieId/adminDelete    |     | Admin |
 | GET all reviews of a movie  | GET    | /api/v1/reviews/:movieId/allReviews    |     | User |
 | GET all reviews of a user  | GET    | /api/v1/reviews/allUserReviews    |     | User |
-
+| POST picture in cloudinary  | POST    | /api/v1/user/upload   |     | User |
+| GET the logged in user  | GET    | /api/v1/user/loggedInUser   |     | User |
+| PUT edit user details  | PUT    | /api/v1/user/edit   |     | User |
+| DELETE user  | DELETE    | /api/v1/user/delete   |     | User |
+| DELETE any user  | DELETE    | /api/v1/user/:userId/delete   |     | Admin |
+| GET the user list  | GET    | /api/v1/user/userList   |     | Admin |
+| PUT the user preference view  | PUT    | /api/v1/user/preferences   |     | User |
+| POST vote like  | POST    | /api/v1/votes/:movieId/like   |     | User |
+| POST vote dislike  | POST    | /api/v1/votes/:movieId/dislike   |     | User |
+| POST vote ignore  | POST    | /api/v1/votes/:movieId/ignore   |     | User |
+| GET all user votes  | GET    | /api/v1/votes/myVotes  |     | User |
+| POST movie to watchlist  | POST    | /api/v1/watchList/:movieId/add   |     | User |
+| DELETE movie from watchlist  | DELETE    | /api/v1/watchList/:movieId/remove   |     | User |
+| GET if a movie exists in watchList  | GET    | /api/v1/watchList/:movieId/exists  |     | User |
+| GET all user watchlist items  | GET    | /api/v1/watchList  |     | User |
 
 ---
 
