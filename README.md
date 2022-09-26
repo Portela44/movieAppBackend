@@ -1,7 +1,7 @@
-# Project's name REST API
+# MovieFetch REST API
 ## Description
 
-This is a the backend repository for the React application `app's name`.
+This is a the backend repository for the React application `MovieFetch`.
 
 ---
 
@@ -42,6 +42,12 @@ What can the user do with the app?
 - Admin can create a movie.
 - Admin can delete a movie.
 - Admin can edit any movie.
+- User can get random recommendations based only on its votes.
+
+## User stories (Backlog)
+
+- User can search for a determined movie included in App.
+- Admin can easly search for any movie JSON data included in the API (the json data will be displayed in console).
 - User can also vote 'Ignore' so the movie is not considered an opinion, and is never recommended again.
 - User can add movies to its watchList ("add to watchlist" button), to be able to get to them later and watch them.
 - User can upload or change a profile picture.
@@ -56,11 +62,6 @@ What can the user do with the app?
 - User can leave likes on any review.
 - Admin can delete any review in case it is needed.
 - User can get recommendations considering its votes and the genres saved in preferences.
-
-## User stories (Backlog)
-
-
-
 ---
 
 ## Models
@@ -91,16 +92,12 @@ Users in the database have the following properties:
   },
   imageUrl:{
     type: String,
-  },
-  watchList:{
-    type: [Schema.Types.ObjectId],
-    ref: "Movie"
+    default: "https://www.nicepng.com/png/full/933-9332131_profile-picture-default-png.png"
   },
   preferences: {
     type: [String],
     default: []
   },
-
   biography:{
     type: String,
     required: true,
@@ -212,9 +209,6 @@ Votes in the database have the following properties:
         },
         ignore: {
             type: Boolean,
-        },
-        watchList: {
-            type: Boolean,
         }
 }
 ```
@@ -245,9 +239,6 @@ Reviews in the database have the following properties:
             type: String,
             required: true,
             default: 0
-        },
-        likes: {
-            type: Number,
         }
 }
 ```
@@ -266,8 +257,8 @@ Reviews in the database have the following properties:
 
 ## Useful links
 
-- [Presentation slides]()
-- [Frontend repository]()
-- [Frontend deploy]()
+- [Presentation slides](https://docs.google.com/presentation/d/18FTmbfKPk4-kvmUaDFEL434RDo-BS3r-xkGEDVOJ4cY/edit#slide=id.g15922dfdf9b_0_17)
+- [Frontend repository](https://github.com/Paumesonero/movieAppFrontend)
+- [Frontend deploy](https://moviefetchapp.netlify.app/)
 - [Deployed REST API]()
 
