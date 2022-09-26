@@ -266,6 +266,16 @@ Reviews in the database have the following properties:
 | GET voteList by Rating  | GET     | /api/v1/movies/voteList/byRating    |     | User |
 | GET voteList by Popularity  | GET     | /api/v1/movies/voteList/byPopularity    |     | User |
 | GET movie page  | GET     | /api/v1/movies/:movieId    |     | User |
+| POST a like in a review  | POST    | /api/v1/reviewLike/add    |     | User |
+| DELETE a like in a review  | DELETE   | /api/v1/reviewLike/remove    |     | User |
+| GET likes in a review  | GET    | /api/v1/reviewLike/:reviewId    |     | User |
+| GET if a review is liked  | GET    | /api/v1/reviewLike/isLiked/:reviewId    |     | User |
+| POST a review  | GET    | /api/v1/reviews/:movieId/create    |     | User |
+| DELETE a user's own review  | DELETE   | /api/v1/reviews/:movieId/delete    |     | User |
+| DELETE any review  | DELETE   | /api/v1/reviews/:movieId/adminDelete    |     | Admin |
+| GET all reviews of a movie  | GET    | /api/v1/reviews/:movieId/allReviews    |     | User |
+| GET all reviews of a user  | GET    | /api/v1/reviews/allUserReviews    |     | User |
+
 
 ---
 
