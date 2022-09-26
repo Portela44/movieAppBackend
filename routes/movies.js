@@ -21,26 +21,24 @@ router.get("/next", isAuthenticated, async(req, res, next) => {
         return userPreferences.some(genre => movieGenres.includes(genre));
     };
     try {
-        
         const user = await User.findById(userId);
         let votes = await Vote.find({userId: user._id});
         votes.forEach(vote => {
             votedMovieIdArr.push(String(vote.movieId));
         });
-        console.log('this is my voted movie array', votedMovieIdArr)
         let nextMovie = await Movie.aggregate([{$sample: {size: 1}}]);
         let nextMovie0 = nextMovie[0];
-        while(votedMovieIdArr.includes(String(nextMovie0._id))) {
-            nextMovie = await Movie.aggregate([{$sample: {size: 1}}]);
-            nextMovie0 = nextMovie[0];
-            if(nextMovie0.genres.length > 0 && user.preferences.length > 0) {
-                while(!interest(user.preferences, nextMovie0.genres)) {
+        if(nextMovie0.genres.length > 0 && user.preferences.length > 0) {
+            while(votedMovieIdArr.includes(String(nextMovie0._id)) || (!interest(user.preferences, nextMovie0.genres))) {
                     nextMovie = await Movie.aggregate([{$sample: {size: 1}}]);
                     nextMovie0 = nextMovie[0];
-                }    
             }
-        };
-        console.log(user.preferences);
+        } else {
+            while(votedMovieIdArr.includes(String(nextMovie0._id))) {
+                nextMovie = await Movie.aggregate([{$sample: {size: 1}}]);
+                nextMovie0 = nextMovie[0];
+            }
+        }
         res.status(202).json({data: nextMovie0});
     } catch (error) {
         next(error);
