@@ -35,8 +35,8 @@ router.delete('/:movieId/remove', isAuthenticated, async (req, res, next)=>{
         error = new ErrorResponse(message, 400);
     }
 });
-// @desc    Removes a movie from whatchlist
-// @route   DELETE /watchList/:movieId/remove
+// @desc    Gets if a movie exists in watchlist
+// @route   GET /watchList/:movieId/exists
 // @access  User
 router.get('/:movieId/exists', isAuthenticated, async (req, res, next)=>{
     const userId = req.payload._id;

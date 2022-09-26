@@ -11,7 +11,7 @@ const { isAuthenticated, isAdmin } = require("../middlewares/jwt");
 const Review = require("../models/Review");
 const ReviewLike = require("../models/ReviewLike");
 
-// @desc    Gets a random movieId considering user preferences and 
+// @desc    Gets a random movieId considering user preferences and already voted movies.
 // @route   GET /movies/next
 // @access  User
 router.get("/next", isAuthenticated, async(req, res, next) => {

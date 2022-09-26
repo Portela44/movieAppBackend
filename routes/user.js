@@ -5,7 +5,7 @@ const User = require("../models/User");
 const fileUploader = require('../config/cloudinary.config');
 const ErrorResponse = require('../utils/error');
 
-// @desc    Uploads a picture in claudinary
+// @desc    Uploads a picture in cloudinary
 // @route   GET /user/upload
 // @access  User
 router.post('/upload', fileUploader.single('imageUrl'), (req,res,next) =>{

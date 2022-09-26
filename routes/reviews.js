@@ -6,7 +6,7 @@ const Review = require("../models/Review");
 const ReviewLike = require('../models/ReviewLike');
 
 // @desc    Creates review in Database
-// @route   POST /reviews/create
+// @route   POST /reviews/:movieId/create
 // @access  User
 router.post('/:movieId/create', isAuthenticated, async (req, res, next)=>{
     const{movieId} = req.params;
@@ -40,7 +40,7 @@ router.delete('/:reviewId/delete', isAuthenticated, async ( req, res, next)=>{
 });
 // @desc    Admin can delete any review
 // @route   Delete /reviews/delete
-// @access  User
+// @access  Admin
 router.delete('/:reviewId/adminDelete', isAuthenticated,isAdmin, async ( req, res, next)=>{
     const{reviewId} = req.params;
     try {
