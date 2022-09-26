@@ -249,9 +249,15 @@ Reviews in the database have the following properties:
 
 | Action           | Method    | Endpoint             | Req.body                        | Private/Public |
 |------------------|-----------|----------------------|---------------------------------|-----------------|
-| SIGN UP user     | POST      | /api/v1/auth/signup  | { username, email, password }   |    Public |                 
-| LOG IN user      | POST      | /api/v1/auth/login   | { email, password }             |    Public |                  
-| GET logged in user   | GET     | /api/v1/auth/me    |   | Private |
+| POST create user     | POST      | /api/v1/auth/signup  | { username, email, password, biography, imageUrl}   |    Public |                 
+| POST login user      | POST      | /api/v1/auth/login   | { email, password }             |    Public |                  
+| GET logged-in user   | GET     | /api/v1/auth/me    |     | Private |
+| GET next movie   | GET     | /api/v1/movies/next    |     | User |
+| GET ignored movies   | GET     | /api/v1/movies/ignored    |     | User |
+| GET user voteList   | GET     | /api/v1/movies/voteList    |     | User |
+| GET search movie in APP (name)   | GET     | /api/v1/movies/search/:search    |     | Public |
+| GET search movie in API (name)   | GET     | /api/v1/movies/api-search-by-name/:search    |     | Admin |
+| GET search movie in API (imdbId)   | GET     | /api/v1/movies/api-search-by-imdbId/:search    |     | Admin |
 
 ---
 
