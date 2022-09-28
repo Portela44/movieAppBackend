@@ -5,7 +5,7 @@ const ErrorResponse = require('../utils/error');
 const {isAuthenticated} = require('../middlewares/jwt');
 
 // @desc    Posts add movie to watchlist
-// @route   POST /watchList/:movieId/addToWatchlist
+// @route   POST /watchList/:movieId/add
 // @access  User
 router.post('/:movieId/add', isAuthenticated, async (req, res, next)=>{
     const userId = req.payload._id;
