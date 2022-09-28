@@ -11,7 +11,7 @@ const { isAuthenticated, isAdmin } = require("../middlewares/jwt");
 const Review = require("../models/Review");
 const ReviewLike = require("../models/ReviewLike");
 
-// @desc    Gets a random movieId considering user preferences and 
+// @desc    Gets a random movieId considering user preferences and already voted movies.
 // @route   GET /movies/next
 // @access  User
 router.get("/next", isAuthenticated, async(req, res, next) => {
@@ -69,7 +69,7 @@ router.get("/voteList", isAuthenticated, async(req, res, next) => {
     }
 });
 // @desc    Searches for a movie in the database based on a user body input.
-// @route   GET /movies/search-movie
+// @route   GET /movies/search/:search
 // @access  Public
 router.get("/search/:search", async(req, res, next) => {
     const {search}  = req.params;
@@ -81,7 +81,7 @@ router.get("/search/:search", async(req, res, next) => {
     }
 });
 // @desc    Displays movie information coming from an API in the console, so it can be copy-pasted into the seed. Search is made by movie title.
-// @route   GET /movies/api-search-by-name
+// @route   GET /movies/api-search-by-name/:search
 // @access  Admin
 router.get("/api-search-by-name/:search", async(req, res, next) => {
     const { search } = req.params;
@@ -94,7 +94,7 @@ router.get("/api-search-by-name/:search", async(req, res, next) => {
     }
 });
 // @desc    Displays movie information coming from an API in the console, so it can be copy-pasted into the seed. Search is made by imdbId.
-// @route   GET /movies/api-search-by-imdbId
+// @route   GET /movies/api-search-by-imdbId/:search
 // @access  Admin
 router.get("/api-search-by-imdbId/:search", async(req, res, next) => {
     const { search } = req.params;
@@ -168,7 +168,7 @@ router.post("/create", isAuthenticated, isAdmin, async(req, res, next) => {
     }
 });
 // @desc    Shows its own vote list to each user, sorted by release date (premiere)
-// @route   GET /movies/byDate
+// @route   GET /movies/voteList/byYear
 // @access  User
 router.get("/voteList/byYear", isAuthenticated, async(req, res, next) => {
     const userId = req.payload._id;
@@ -181,7 +181,7 @@ router.get("/voteList/byYear", isAuthenticated, async(req, res, next) => {
     }
 });
 // @desc    Shows its own vote list to each user, sorted by popularity (premiere)
-// @route   GET /movies/byRating
+// @route   GET /movies/voteList/byRating
 // @access  User
 router.get("/voteList/byRating", isAuthenticated, async(req, res, next) => {
     const userId = req.payload._id;
@@ -194,7 +194,7 @@ router.get("/voteList/byRating", isAuthenticated, async(req, res, next) => {
     }
 });
 // @desc    Shows its own vote list to each user, sorted by popularity (premiere)
-// @route   GET /movies/byPopularity
+// @route   GET /movies/voteList/byPopularity
 // @access  User
 router.get("/voteList/byPopularity", isAuthenticated, async(req, res, next) => {
     const userId = req.payload._id;

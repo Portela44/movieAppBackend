@@ -6,7 +6,7 @@ const Review = require("../models/Review");
 const ReviewLike = require('../models/ReviewLike');
 
 // @desc    Creates review in Database
-// @route   POST /reviews/create
+// @route   POST /reviews/:movieId/create
 // @access  User
 router.post('/:movieId/create', isAuthenticated, async (req, res, next)=>{
     const{movieId} = req.params;
@@ -20,7 +20,7 @@ router.post('/:movieId/create', isAuthenticated, async (req, res, next)=>{
     }
 });
 // @desc    Deletes review in Database
-// @route   Delete /reviews/delete
+// @route   Delete /reviews/:reviewId/delete
 // @access  User
 router.delete('/:reviewId/delete', isAuthenticated, async ( req, res, next)=>{
     const{reviewId} = req.params;
@@ -39,8 +39,8 @@ router.delete('/:reviewId/delete', isAuthenticated, async ( req, res, next)=>{
     }
 });
 // @desc    Admin can delete any review
-// @route   Delete /reviews/delete
-// @access  User
+// @route   Delete /reviews/:reviewId/adminDelete
+// @access  Admin
 router.delete('/:reviewId/adminDelete', isAuthenticated,isAdmin, async ( req, res, next)=>{
     const{reviewId} = req.params;
     try {
@@ -65,7 +65,7 @@ router.get('/:movieId/allReviews', isAuthenticated, async (req, res, next) =>{
     }
 });
 // @desc    Shows the user's reviews
-// @route   Get /reviews/allReviews
+// @route   Get /reviews/allUserReviews
 // @access  User
 router.get('/allUserReviews', isAuthenticated, async (req, res, next) =>{
     const userId = req.payload._id

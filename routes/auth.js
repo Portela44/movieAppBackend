@@ -7,7 +7,7 @@ const { isAuthenticated } = require('../middlewares/jwt');
 const saltRounds = 10;
 
 // @desc    SIGN UP new user
-// @route   POST /api/v1/auth/signup
+// @route   POST /auth/signup
 // @access  Public
 router.post('/signup',  async (req, res, next) => {
   const { email, password, username, biography, imageUrl} = req.body;
@@ -49,7 +49,7 @@ router.post('/signup',  async (req, res, next) => {
   }
 });
 // @desc    LOG IN user
-// @route   POST /api/v1/auth/login
+// @route   POST /auth/login
 // @access  Public
 router.post('/login', async (req, res, next) => { 
   const { email, password } = req.body;

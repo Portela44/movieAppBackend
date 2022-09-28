@@ -5,7 +5,7 @@ const ErrorResponse = require('../utils/error');
 const {isAuthenticated} = require('../middlewares/jwt');
 
 // @desc    Posts add movie to watchlist
-// @route   POST /watchList/:movieId/addToWatchlist
+// @route   POST /watchList/:movieId/add
 // @access  User
 router.post('/:movieId/add', isAuthenticated, async (req, res, next)=>{
     const userId = req.payload._id;
@@ -35,8 +35,8 @@ router.delete('/:movieId/remove', isAuthenticated, async (req, res, next)=>{
         error = new ErrorResponse(message, 400);
     }
 });
-// @desc    Removes a movie from whatchlist
-// @route   DELETE /watchList/:movieId/remove
+// @desc    Gets if a movie exists in watchlist
+// @route   GET /watchList/:movieId/exists
 // @access  User
 router.get('/:movieId/exists', isAuthenticated, async (req, res, next)=>{
     const userId = req.payload._id;

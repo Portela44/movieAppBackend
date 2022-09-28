@@ -32,7 +32,7 @@ router.delete("/:reviewId/remove", isAuthenticated, async(req, res, next) => {
     }
 });
 // @desc    User can see the number of likes
-// @route   GET reviewLike/:reviewId/likeAmmount
+// @route   GET /reviewLike/:reviewId
 // @access  User
 router.get("/:reviewId", isAuthenticated, async(req, res, next) => {
     const {reviewId} = req.params;
